@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-rojo: #D42B2B;
+  --color-amarillo: #F5C518;
+  --color-verde: #1A7A3C;
+  --color-azul: #1B3A6B;
+  --color-naranja: #E8711A;
+  --color-crema: #FAF3E0;
+  --color-oscuro: #0F1A0A;
+  --color-pasto: #E8711A;
+  --color-cali: #1A7A3C;
+  --color-medellin: #F5C518;
+  --font-barlow: var(--font-barlow);
+  --font-barlow-condensed: var(--font-barlow-condensed);
+  --font-playfair: var(--font-playfair-display);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer utilities {
+  .hero-bg-pattern {
+    background-image: repeating-linear-gradient(45deg, var(--color-amarillo) 0, var(--color-amarillo) 1px, transparent 0, transparent 50%),
+      repeating-linear-gradient(-45deg, var(--color-rojo) 0, var(--color-rojo) 1px, transparent 0, transparent 50%);
+    background-size: 26px 26px;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  .stroke-text {
+    -webkit-text-stroke: 1.5px var(--color-amarillo);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes orbFloat {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-28px) scale(1.05);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
