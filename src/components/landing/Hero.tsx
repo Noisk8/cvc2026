@@ -38,15 +38,31 @@ export default function Hero() {
 
     return (
         <section className="min-h-screen relative flex flex-col items-center justify-center pt-[110px] px-5 pb-[80px] overflow-hidden bg-[#e0ded6]">
-            {/* Paper Texture Background */}
-            <div className="absolute inset-0 opacity-[.35] bg-[url('/assets/paper-texture.png')] mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cream-paper.png')" }}></div>
+            {/* Clean Official Poster Style: CSS Halftone Background */}
+            <div className="absolute inset-0 bg-[#42CAE6] pointer-events-none"></div>
+            <div className="absolute inset-0 opacity-[0.35] pointer-events-none mix-blend-color-burn" style={{
+                backgroundImage: `radial-gradient(#0E5A7A 2.5px, transparent 2.5px)`,
+                backgroundSize: '15px 15px'
+            }}></div>
+            <div className="absolute inset-0 opacity-[.20] bg-[url('/assets/paper-texture.png')] mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cream-paper.png')" }}></div>
+
+            {/* Organic Borders Frame (Enredaderas) */}
+            <div className="absolute top-[-5%] left-[-5%] w-[400px] xl:w-[500px] pointer-events-none opacity-90 z-0 origin-center rotate-[130deg]">
+                <img src="/assets/Planta.png" alt="Enredadera Izquierda Superior" className="w-full h-auto drop-shadow-xl" />
+            </div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[500px] xl:w-[600px] pointer-events-none opacity-90 z-0 origin-center rotate-[-30deg]">
+                <img src="/assets/Planta.png" alt="Enredadera Derecha Inferior" className="w-full h-auto drop-shadow-xl" />
+            </div>
+            <div className="absolute top-[-10%] right-[-5%] w-[350px] xl:w-[450px] pointer-events-none opacity-80 z-0 origin-center rotate-[-120deg] scale-x-[-1]">
+                <img src="/assets/Planta.png" alt="Enredadera Derecha Superior" className="w-full h-auto drop-shadow-xl" />
+            </div>
 
             {/* Graphic Elements */}
-            <div className="absolute bottom-[-10%] left-[-5%] w-[350px] xl:w-[450px] animate-[float_12s_ease-in-out_infinite_reverse] hidden xl:block z-10 pointer-events-none">
+            <div className="absolute bottom-[2%] left-[1%] w-[350px] xl:w-[355px] animate-[float_12s_ease-in-out_infinite_reverse] hidden xl:block z-10 pointer-events-none">
                 <img src="/assets/guacamaya.png" alt="Guacamaya" className="w-full h-auto drop-shadow-2xl opacity-90" />
             </div>
 
-            <div className="absolute bottom-[5%] right-[5%] w-[320px] xl:w-[400px] animate-[float_9s_ease-in-out_infinite] hidden md:block z-20 pointer-events-none">
+            <div className="absolute bottom-[25%] right-[2%] w-[320px] xl:w-[400px] animate-[float_9s_ease-in-out_infinite] hidden md:block z-20 pointer-events-none">
                 <img src="/assets/Jaguar.png" alt="Jaguar" className="w-full h-auto drop-shadow-2xl scale-x-[-1]" />
             </div>
 

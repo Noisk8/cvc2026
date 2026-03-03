@@ -183,31 +183,34 @@ export default function RegistroForm() {
 
     return (
         <section className="bg-[#1a2512] py-[90px] px-5 relative overflow-hidden" id="inscripcion">
-            {/* Texture */}
+            <div className="absolute inset-x-0 inset-y-[-1px] border-t-2 border-b-2 border-amarillo pointer-events-none opacity-20"></div>
+
+            {/* Background Textures & Mesh */}
             <div className="absolute inset-0 opacity-[.35] bg-[url('/assets/paper-texture.png')] mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cream-paper.png')" }}></div>
+            <div className="absolute inset-0 opacity-[.06] pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(0deg, var(--color-crema) 0, var(--color-crema) 1px, transparent 0, transparent 40px), repeating-linear-gradient(90deg, var(--color-crema) 0, var(--color-crema) 1px, transparent 0, transparent 40px)" }}></div>
 
             {/* Graphics */}
-            <div className="absolute top-[10%] right-[3%] w-[280px] md:w-[320px] animate-[float_10s_ease-in-out_infinite] hidden lg:block z-10 opacity-90 pointer-events-none">
+            {/* <div className="absolute top-[10%] right-[3%] w-[280px] md:w-[320px] animate-[float_10s_ease-in-out_infinite] hidden lg:block z-10 opacity-90 pointer-events-none">
                 <img src="/assets/Sol.png" alt="Sol" className="w-full h-auto drop-shadow-xl" />
-            </div>
+            </div> */}
 
-            <div className="absolute top-[20%] left-[-2%] w-[250px] animate-[float_10s_ease-in-out_infinite_reverse] hidden xl:block z-10 opacity-70 pointer-events-none">
+            {/* <div className="absolute top-[30%] left-[0%] w-[350px] animate-[float_10s_ease-in-out_infinite_reverse] hidden xl:block z-10 opacity-70 pointer-events-none">
                 <img src="/assets/Megafono.png" alt="Megafono" className="w-full h-auto drop-shadow-xl" />
-            </div>
+            </div> */}
 
-            <div className="absolute bottom-[2%] right-[5%] w-[400px] animate-[float_12s_ease-in-out_infinite_reverse] hidden xl:block z-10 opacity-90 pointer-events-none">
+            {/* <div className="absolute bottom-[20%] right-[40%] w-[400px] animate-[float_12s_ease-in-out_infinite_reverse] hidden xl:block z-10 opacity-90 pointer-events-none">
                 <img src="/assets/manos.png" alt="Manos" className="w-full h-auto drop-shadow-2xl" />
-            </div>
+            </div> */}
 
             <div className="max-w-[1080px] mx-auto relative z-20">
                 <div className="text-center mb-[50px]">
-                    <div className="font-barlow-condensed font-[700] text-[11px] tracking-[4px] uppercase text-amarillo mb-[14px] flex justify-center items-center gap-[10px]">
+                    <div className="font-barlow-condensed font-[700] text-[15px] tracking-[4px] uppercase text-amarillo mb-[14px] flex justify-center items-center gap-[10px]">
                         Inscripción
                     </div>
                     <h2 className="font-playfair text-[clamp(32px,4.5vw,56px)] font-[700] text-crema mb-3">
                         Trae tu taburete<br />a la gran asamblea
                     </h2>
-                    <p className="text-[15px] text-crema/45 max-w-[460px] mx-auto leading-[1.6]">
+                    <p className="text-[18px] text-crema/45 max-w-[460px] mx-auto leading-[1.6]">
                         Regístrate, cuéntanos quién eres, tu proceso y qué necesitas para participar plenamente.
                     </p>
                 </div>
@@ -215,26 +218,26 @@ export default function RegistroForm() {
                 <form onSubmit={handleSubmit} className="bg-white/5 border border-white/10 backdrop-blur-md p-[24px] md:p-[46px] md:pb-[40px] max-w-[820px] mx-auto">
 
                     {/* Datos Personales */}
-                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[20px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Datos personales
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[18px] mb-[22px]">
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Nombre completo *</label>
-                            <input type="text" name="nombre" value={registro.nombre} onChange={handleChange} required placeholder="Nombre y apellido" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Nombre completo *</label>
+                            <input type="text" name="nombre" value={registro.nombre} onChange={handleChange} required placeholder="Nombre y apellido" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Correo electrónico *</label>
-                            <input type="email" name="email" value={registro.email} onChange={handleChange} required placeholder="correo@ejemplo.com" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Correo electrónico *</label>
+                            <input type="email" name="email" value={registro.email} onChange={handleChange} required placeholder="correo@ejemplo.com" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Teléfono / WhatsApp *</label>
-                            <input type="tel" name="telefono" value={registro.telefono} onChange={handleChange} required placeholder="+57 300 000 0000" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Teléfono / WhatsApp *</label>
+                            <input type="tel" name="telefono" value={registro.telefono} onChange={handleChange} required placeholder="+57 300 000 0000" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">País de origen *</label>
-                            <select name="pais" value={registro.pais} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512] [&>optgroup]:bg-[#1a2512]">
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">País de origen *</label>
+                            <select name="pais" value={registro.pais} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512] [&>optgroup]:bg-[#1a2512]">
                                 <option value="">Selecciona tu país</option>
                                 <optgroup label="América del Sur">
                                     <option>Argentina</option><option>Bolivia</option><option>Brasil</option><option>Chile</option><option>Colombia</option><option>Ecuador</option><option>Paraguay</option><option>Perú</option><option>Uruguay</option><option>Venezuela</option>
@@ -248,12 +251,12 @@ export default function RegistroForm() {
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Ciudad / Región *</label>
-                            <input type="text" name="ciudad" value={registro.ciudad} onChange={handleChange} required placeholder="¿De dónde vienes?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Ciudad / Región *</label>
+                            <input type="text" name="ciudad" value={registro.ciudad} onChange={handleChange} required placeholder="¿De dónde vienes?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Identidad de género *</label>
-                            <select name="genero" value={registro.genero} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Identidad de género *</label>
+                            <select name="genero" value={registro.genero} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Selecciona</option><option>Prefiero no decir</option><option>Mujer</option><option>Hombre</option><option>No binario/a</option><option>Otro</option>
                             </select>
                         </div>
@@ -262,57 +265,57 @@ export default function RegistroForm() {
                     <div className="h-[1px] bg-white/5 my-7"></div>
 
                     {/* Organización */}
-                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[20px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Tu organización y proceso CVC
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[18px]">
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Organización / colectivo *</label>
-                            <input type="text" name="organizacion" value={registro.organizacion} onChange={handleChange} required placeholder="Nombre de tu organización" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Organización / colectivo *</label>
+                            <input type="text" name="organizacion" value={registro.organizacion} onChange={handleChange} required placeholder="Nombre de tu organización" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">¿Cuántos años lleva tu proceso CVC? *</label>
-                            <select name="anos_cvc" value={registro.anos_cvc} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">¿Cuántos años lleva tu proceso CVC? *</label>
+                            <select name="anos_cvc" value={registro.anos_cvc} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Selecciona</option><option>Menos de 1 año</option><option>1 - 3 años</option><option>4 - 7 años</option><option>8 - 12 años</option><option>13 - 20 años</option><option>Más de 20 años</option>
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Pertenencia étnica *</label>
-                            <select name="etnia" value={registro.etnia} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Pertenencia étnica *</label>
+                            <select name="etnia" value={registro.etnia} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Selecciona</option><option>Ninguna / No aplica</option><option>Pueblo originario / indígena</option><option>Afrodescendiente</option><option>Raizal</option><option>Palenquero/a</option><option>Rom / Gitano</option><option>Mestizo/a</option><option>Otro</option>
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Rol en el congreso *</label>
-                            <select name="rol" value={registro.rol} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Rol en el congreso *</label>
+                            <select name="rol" value={registro.rol} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Cómo participas</option><option>Ponente de experiencia significativa</option><option>Artista / Performer</option><option>Gestor/a cultural comunitario/a</option><option>Mediador/a cultural</option><option>Formador/a / Educador/a popular</option><option>Investigador/a</option><option>Delegado/a de gobierno</option><option>Participante general</option>
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px] md:col-span-2 mt-2">
-                            <label className="font-barlow-condensed text-[12px] tracking-[2px] uppercase text-crema/80">Descripción y justificación de tu propuesta o experiencia *</label>
-                            <p className="text-[12px] text-crema/40 leading-[1.5] mb-2">Para que tu participación sea más significativa, cuéntanos en 100-300 palabras: ¿De qué trata tu proceso u organización? ¿En qué contexto o territorio trabajan? ¿Cuáles son sus principales metodologías o impactos? Si eres ponente o artista, describe brevemente la experiencia o acto que te gustaría compartir en el Congreso.</p>
-                            <textarea name="descripcion" value={registro.descripcion} onChange={handleChange} required placeholder="Escribe aquí el resumen de tu proceso y/o propuesta..." className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[140px] resize-y"></textarea>
+                            <label className="font-barlow-condensed text-[16px] tracking-[2px] uppercase text-crema/80">Descripción y justificación de tu propuesta o experiencia *</label>
+                            <p className="text-[16px] text-crema/40 leading-[1.5] mb-2">Para que tu participación sea más significativa, cuéntanos en 100-300 palabras: ¿De qué trata tu proceso u organización? ¿En qué contexto o territorio trabajan? ¿Cuáles son sus principales metodologías o impactos? Si eres ponente o artista, describe brevemente la experiencia o acto que te gustaría compartir en el Congreso.</p>
+                            <textarea name="descripcion" value={registro.descripcion} onChange={handleChange} required placeholder="Escribe aquí el resumen de tu proceso y/o propuesta..." className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[140px] resize-y"></textarea>
                         </div>
                     </div>
 
                     <div className="h-[1px] bg-white/5 my-7"></div>
 
                     {/* Logística */}
-                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[20px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Logística y aporte
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[18px]">
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">¿Vas a pagar aporte? *</label>
-                            <select name="aporte" value={registro.aporte} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">¿Vas a pagar aporte? *</label>
+                            <select name="aporte" value={registro.aporte} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Selecciona</option><option>Sí, puedo pagar el aporte completo</option><option>Sí, puedo pagar un aporte parcial</option><option>Necesito apoyo / beca</option><option>Mi organización cubre los costos</option><option>Gobierno / institución cubre costos</option>
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">¿Perteneces a algún comité? *</label>
-                            <select name="comite" value={registro.comite} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">¿Perteneces a algún comité? *</label>
+                            <select name="comite" value={registro.comite} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Selecciona</option><option value="No">No</option><option>Sí – Comité Nariño / Pasto</option><option>Sí – Comité Valle / Cali</option><option>Sí – Comité Antioquia / Medellín</option><option>Sí – Comité Nacional</option><option>Sí – Comité Internacional</option>
                             </select>
                         </div>
@@ -321,7 +324,7 @@ export default function RegistroForm() {
                     <div className="h-[1px] bg-white/5 my-7"></div>
 
                     {/* Sede */}
-                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[20px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Sede(s) a las que asistes
                     </div>
 
@@ -336,12 +339,12 @@ export default function RegistroForm() {
                                         style={{ borderColor: isActive ? sColor : '', backgroundColor: isActive ? sColor : '' }}>
                                     </div>
                                     <div className="flex flex-col flex-1">
-                                        <span className="font-barlow-condensed font-[700] text-[15px] uppercase tracking-[1px]" style={{ color: sColor }}>{sede}</span>
-                                        <span className="text-[11px] opacity-50 mt-0.5">
+                                        <span className="font-barlow-condensed font-[700] text-[18px] uppercase tracking-[1px]" style={{ color: sColor }}>{sede}</span>
+                                        <span className="text-[15px] opacity-50 mt-0.5">
                                             {sede === 'Pasto' ? '17–19 Abr · Nariño' : sede === 'Cali' ? '20–22 Abr · Valle del Cauca' : sede === 'Medellín' ? '23–26 Abr · Antioquia' : 'Pasto → Cali → Medellín'}
                                         </span>
                                         {registro.pais && sede !== 'Todo el recorrido' && (
-                                            <span className={`text-[11px] mt-1 px-2 py-1 rounded-[2px] w-fit ${getCountrySedeAvailability(sede) > 0 ? 'bg-verde/15 text-[#5dd68c]' : 'bg-rojo/15 text-[#ff9090]'}`}>
+                                            <span className={`text-[15px] mt-1 px-2 py-1 rounded-[2px] w-fit ${getCountrySedeAvailability(sede) > 0 ? 'bg-verde/15 text-[#5dd68c]' : 'bg-rojo/15 text-[#ff9090]'}`}>
                                                 {getCountrySedeAvailability(sede) > 0 ? `${getCountrySedeAvailability(sede)} cupos disp.` : '✕ Agotado'}
                                             </span>
                                         )}
@@ -352,14 +355,14 @@ export default function RegistroForm() {
                     </div>
 
                     {warning && (
-                        <div className={`p-3 px-4 text-[13px] leading-[1.5] mt-3 ${warning.isWarn ? 'bg-rojo/10 border border-rojo/30 text-[#ff9090]' : 'bg-verde/10 border border-verde/25 text-[#5dd68c]'}`}>
+                        <div className={`p-3 px-4 text-[16px] leading-[1.5] mt-3 ${warning.isWarn ? 'bg-rojo/10 border border-rojo/30 text-[#ff9090]' : 'bg-verde/10 border border-verde/25 text-[#5dd68c]'}`}>
                             {warning.text}
                         </div>
                     )}
 
                     {/* Intereses */}
                     <div className="h-[1px] bg-white/5 my-7"></div>
-                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[20px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Círculos de la Palabra – tus intereses
                     </div>
 
@@ -369,9 +372,9 @@ export default function RegistroForm() {
                             return (
                                 <div key={int} onClick={() => toggleArrayItem('intereses', int)} className={`flex items-start gap-2.5 p-3 border border-white/5 cursor-pointer transition-all duration-200 ${active ? 'bg-amarillo/10 border-amarillo' : 'bg-white/5 hover:border-amarillo/30 hover:bg-amarillo/5'}`}>
                                     <div className={`w-4 h-4 border-2 shrink-0 flex items-center justify-center transition-all duration-200 mt-px ${active ? 'bg-amarillo border-amarillo text-oscuro' : 'border-white/25'}`}>
-                                        {active && <span className="text-[10px] font-[900]">✓</span>}
+                                        {active && <span className="text-[14px] font-[900]">✓</span>}
                                     </div>
-                                    <div className="text-[12px] leading-[1.4] text-crema/70">{int}</div>
+                                    <div className="text-[16px] leading-[1.4] text-crema/70">{int}</div>
                                 </div>
                             );
                         })}
@@ -379,7 +382,7 @@ export default function RegistroForm() {
 
                     {/* Necesidades */}
                     <div className="h-[1px] bg-white/5 my-7"></div>
-                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[20px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Necesidades logísticas
                     </div>
 
@@ -389,9 +392,9 @@ export default function RegistroForm() {
                             return (
                                 <div key={nec} onClick={() => toggleArrayItem('necesidades', nec)} className={`flex items-center gap-2.5 py-2.5 px-3.5 border border-white/5 cursor-pointer transition-all duration-200 ${active ? 'bg-naranja/10 border-naranja' : 'bg-white/5 hover:border-naranja/30 hover:bg-naranja/5'}`}>
                                     <div className={`w-4 h-4 border-2 rounded-full shrink-0 flex items-center justify-center transition-all duration-200 ${active ? 'bg-naranja border-naranja text-white' : 'border-white/25'}`}>
-                                        {active && <span className="text-[10px] font-[900]">✓</span>}
+                                        {active && <span className="text-[14px] font-[900]">✓</span>}
                                     </div>
-                                    <div className="text-[12px] text-crema/70">{nec}</div>
+                                    <div className="text-[16px] text-crema/70">{nec}</div>
                                 </div>
                             );
                         })}
@@ -400,21 +403,21 @@ export default function RegistroForm() {
                     <div className="h-[1px] bg-white/5 my-7"></div>
 
                     <div className="flex flex-col gap-[7px]">
-                        <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Comentarios adicionales</label>
-                        <textarea name="notas" value={registro.notas} onChange={handleChange} placeholder="¿Algo más que quieras contarnos?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px]"></textarea>
+                        <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Comentarios adicionales</label>
+                        <textarea name="notas" value={registro.notas} onChange={handleChange} placeholder="¿Algo más que quieras contarnos?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px]"></textarea>
                     </div>
 
                     {formError && (
-                        <div className="bg-rojo/10 border border-rojo/30 text-[#ff9090] p-4 text-[14px] leading-[1.5] mt-6 text-center font-barlow font-[500]">
+                        <div className="bg-rojo/10 border border-rojo/30 text-[#ff9090] p-4 text-[17px] leading-[1.5] mt-6 text-center font-barlow font-[500]">
                             {formError}
                         </div>
                     )}
 
                     <div className="flex flex-col md:flex-row items-center justify-between gap-4 flex-wrap mt-7">
-                        <p className="text-[12px] text-crema/40 max-w-[280px] leading-[1.5] text-center md:text-left">
+                        <p className="text-[16px] text-crema/40 max-w-[280px] leading-[1.5] text-center md:text-left">
                             Al inscribirte confirmas tu interés. El equipo organizador se pondrá en contacto pronto. Los campos con * son obligatorios.
                         </p>
-                        <button type="submit" disabled={loading} className="w-full md:w-auto overflow-hidden relative group bg-rojo text-white border-none font-barlow-condensed font-[700] text-[16px] tracking-[3px] uppercase px-11 py-4 cursor-pointer transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5">
+                        <button type="submit" disabled={loading} className="w-full md:w-auto overflow-hidden relative group bg-rojo text-white border-none font-barlow-condensed font-[700] text-[20px] tracking-[3px] uppercase px-11 py-4 cursor-pointer transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5">
                             <div className={`absolute inset-0 bg-verde origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 z-0 ${loading ? 'hidden' : ''}`}></div>
                             <span className="relative z-10">{loading ? 'Enviando...' : success ? '✓ Inscripción Enviada' : 'Inscribirme al Congreso →'}</span>
                         </button>

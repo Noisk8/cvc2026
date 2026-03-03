@@ -4,13 +4,13 @@ export default function About() {
             {/* Texture */}
             <div className="absolute inset-0 opacity-[.35] bg-[url('/assets/paper-texture.png')] mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cream-paper.png')" }}></div>
 
-            <div className="absolute font-playfair font-[900] text-[280px] right-[-20px] top-1/2 -translate-y-1/2 opacity-[.04] text-rojo leading-none mix-blend-multiply content-['VII'] group-hover:opacity-[.08] transition-opacity duration-500 z-0">
+            <div className="absolute font-playfair font-[900] text-[280px] left-[-20px] md:left-[2%] top-1/2 -translate-y-1/2 opacity-[.04] text-rojo leading-none mix-blend-multiply content-['VII'] group-hover:opacity-[.08] transition-opacity duration-500 z-0">
                 VII
             </div>
 
             {/* Graphic Elements */}
 
-            <div className="absolute top-[5%] right-[-2%] w-[250px] animate-[float_12s_ease-in-out_infinite] hidden md:block z-10 opacity-90 pointer-events-none">
+            <div className="absolute top-[-20%] right-[-2%] w-[250px] animate-[float_12s_ease-in-out_infinite] hidden md:block z-10 opacity-90 pointer-events-none">
                 <img src="/assets/Planta.png" alt="Planta" className="w-full h-auto drop-shadow-lg" />
             </div>
 
