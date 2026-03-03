@@ -3,6 +3,7 @@ import Footer from "@/components/shared/Footer";
 import Hero from "@/components/landing/Hero";
 import About from "@/components/landing/About";
 import RegistroForm from "@/components/landing/RegistroForm";
+import Logos from "@/components/landing/Logos";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
         <Hero />
         <About />
         <RegistroForm />
+        <Logos />
       </main>
       <Footer />
     </>

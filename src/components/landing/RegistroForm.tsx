@@ -182,10 +182,24 @@ export default function RegistroForm() {
     };
 
     return (
-        <section className="bg-gradient-to-br from-[#0F1A0A] via-[#14220e] to-[#0a1215] py-[90px] px-5 relative overflow-hidden" id="inscripcion">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_50%,rgba(212,43,43,.08)_0%,transparent_50%),radial-gradient(circle_at_85%_50%,rgba(26,122,60,.08)_0%,transparent_50%)] pointer-events-none"></div>
+        <section className="bg-[#1a2512] py-[90px] px-5 relative overflow-hidden" id="inscripcion">
+            {/* Texture */}
+            <div className="absolute inset-0 opacity-[.35] bg-[url('/assets/paper-texture.png')] mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cream-paper.png')" }}></div>
 
-            <div className="max-w-[1080px] mx-auto relative z-10">
+            {/* Graphics */}
+            <div className="absolute top-[10%] right-[3%] w-[280px] md:w-[320px] animate-[float_10s_ease-in-out_infinite] hidden lg:block z-10 opacity-90 pointer-events-none">
+                <img src="/assets/Sol.png" alt="Sol" className="w-full h-auto drop-shadow-xl" />
+            </div>
+
+            <div className="absolute top-[20%] left-[-2%] w-[250px] animate-[float_10s_ease-in-out_infinite_reverse] hidden xl:block z-10 opacity-70 pointer-events-none">
+                <img src="/assets/Megafono.png" alt="Megafono" className="w-full h-auto drop-shadow-xl" />
+            </div>
+
+            <div className="absolute bottom-[2%] right-[5%] w-[400px] animate-[float_12s_ease-in-out_infinite_reverse] hidden xl:block z-10 opacity-90 pointer-events-none">
+                <img src="/assets/manos.png" alt="Manos" className="w-full h-auto drop-shadow-2xl" />
+            </div>
+
+            <div className="max-w-[1080px] mx-auto relative z-20">
                 <div className="text-center mb-[50px]">
                     <div className="font-barlow-condensed font-[700] text-[11px] tracking-[4px] uppercase text-amarillo mb-[14px] flex justify-center items-center gap-[10px]">
                         Inscripción
@@ -201,7 +215,7 @@ export default function RegistroForm() {
                 <form onSubmit={handleSubmit} className="bg-white/5 border border-white/10 backdrop-blur-md p-[24px] md:p-[46px] md:pb-[40px] max-w-[820px] mx-auto">
 
                     {/* Datos Personales */}
-                    <div className="font-barlow-condensed font-[700] text-[12px] tracking-[4px] uppercase text-amarillo mb-5 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Datos personales
                     </div>
 
@@ -248,7 +262,7 @@ export default function RegistroForm() {
                     <div className="h-[1px] bg-white/5 my-7"></div>
 
                     {/* Organización */}
-                    <div className="font-barlow-condensed font-[700] text-[12px] tracking-[4px] uppercase text-amarillo mb-5 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Tu organización y proceso CVC
                     </div>
 
@@ -275,16 +289,17 @@ export default function RegistroForm() {
                                 <option value="">Cómo participas</option><option>Ponente de experiencia significativa</option><option>Artista / Performer</option><option>Gestor/a cultural comunitario/a</option><option>Mediador/a cultural</option><option>Formador/a / Educador/a popular</option><option>Investigador/a</option><option>Delegado/a de gobierno</option><option>Participante general</option>
                             </select>
                         </div>
-                        <div className="flex flex-col gap-[7px] md:col-span-2">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Describe tu proceso o experiencia comunitaria *</label>
-                            <textarea name="descripcion" value={registro.descripcion} onChange={handleChange} required placeholder="¿Qué hace tu organización? ¿En qué contexto trabajan?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px]"></textarea>
+                        <div className="flex flex-col gap-[7px] md:col-span-2 mt-2">
+                            <label className="font-barlow-condensed text-[12px] tracking-[2px] uppercase text-crema/80">Descripción y justificación de tu propuesta o experiencia *</label>
+                            <p className="text-[12px] text-crema/40 leading-[1.5] mb-2">Para que tu participación sea más significativa, cuéntanos en 100-300 palabras: ¿De qué trata tu proceso u organización? ¿En qué contexto o territorio trabajan? ¿Cuáles son sus principales metodologías o impactos? Si eres ponente o artista, describe brevemente la experiencia o acto que te gustaría compartir en el Congreso.</p>
+                            <textarea name="descripcion" value={registro.descripcion} onChange={handleChange} required placeholder="Escribe aquí el resumen de tu proceso y/o propuesta..." className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[140px] resize-y"></textarea>
                         </div>
                     </div>
 
                     <div className="h-[1px] bg-white/5 my-7"></div>
 
                     {/* Logística */}
-                    <div className="font-barlow-condensed font-[700] text-[12px] tracking-[4px] uppercase text-amarillo mb-5 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Logística y aporte
                     </div>
 
@@ -306,7 +321,7 @@ export default function RegistroForm() {
                     <div className="h-[1px] bg-white/5 my-7"></div>
 
                     {/* Sede */}
-                    <div className="font-barlow-condensed font-[700] text-[12px] tracking-[4px] uppercase text-amarillo mb-5 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Sede(s) a las que asistes
                     </div>
 
@@ -344,7 +359,7 @@ export default function RegistroForm() {
 
                     {/* Intereses */}
                     <div className="h-[1px] bg-white/5 my-7"></div>
-                    <div className="font-barlow-condensed font-[700] text-[12px] tracking-[4px] uppercase text-amarillo mb-5 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Círculos de la Palabra – tus intereses
                     </div>
 
@@ -364,7 +379,7 @@ export default function RegistroForm() {
 
                     {/* Necesidades */}
                     <div className="h-[1px] bg-white/5 my-7"></div>
-                    <div className="font-barlow-condensed font-[700] text-[12px] tracking-[4px] uppercase text-amarillo mb-5 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                    <div className="font-barlow-condensed font-[700] text-[16px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
                         ✧ Necesidades logísticas
                     </div>
 
@@ -414,6 +429,14 @@ export default function RegistroForm() {
 
                 </form>
             </div>
+
+            <style jsx>{`
+                @keyframes float {
+                    0% { transform: translateY(0px) rotate(0deg); }
+                    50% { transform: translateY(-15px) rotate(2deg); }
+                    100% { transform: translateY(0px) rotate(0deg); }
+                }
+            `}</style>
         </section>
     );
 }

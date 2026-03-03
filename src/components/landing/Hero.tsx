@@ -37,70 +37,66 @@ export default function Hero() {
     };
 
     return (
-        <section className="min-h-screen relative flex flex-col items-center justify-center pt-[110px] px-5 pb-[80px] overflow-hidden bg-gradient-to-br from-[#0F1A0A] via-[#152510] to-[#0a1218]">
-            <div className="absolute inset-0 opacity-[.055] hero-bg-pattern pointer-events-none"></div>
+        <section className="min-h-screen relative flex flex-col items-center justify-center pt-[110px] px-5 pb-[80px] overflow-hidden bg-[#e0ded6]">
+            {/* Paper Texture Background */}
+            <div className="absolute inset-0 opacity-[.35] bg-[url('/assets/paper-texture.png')] mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cream-paper.png')" }}></div>
 
-            <div className="absolute rounded-full opacity-[.07] animate-[orbFloat_15s_ease-in-out_infinite] w-[650px] h-[650px] bg-rojo top-[-220px] right-[-180px] pointer-events-none"></div>
-            <div className="absolute rounded-full opacity-[.07] animate-[orbFloat_15s_ease-in-out_infinite] w-[450px] h-[450px] bg-amarillo bottom-[-120px] left-[-120px] pointer-events-none" style={{ animationDelay: "-6s" }}></div>
-            <div className="absolute rounded-full opacity-[.07] animate-[orbFloat_15s_ease-in-out_infinite] w-[280px] h-[280px] bg-verde top-[35%] left-[4%] pointer-events-none" style={{ animationDelay: "-11s" }}></div>
-
-            <div className="absolute font-playfair font-[900] text-[clamp(180px,28vw,360px)] leading-none text-transparent opacity-[.055] right-[-15px] top-1/2 -translate-y-1/2 select-none pointer-events-none stroke-text hidden md:block">
-                7
+            {/* Graphic Elements */}
+            <div className="absolute bottom-[-10%] left-[-5%] w-[350px] xl:w-[450px] animate-[float_12s_ease-in-out_infinite_reverse] hidden xl:block z-10 pointer-events-none">
+                <img src="/assets/guacamaya.png" alt="Guacamaya" className="w-full h-auto drop-shadow-2xl opacity-90" />
             </div>
 
-            <div className="relative z-[2] text-center max-w-[980px]">
-                <div className="inline-block bg-amarillo text-oscuro font-barlow-condensed font-[700] text-[11px] tracking-[3px] uppercase px-[18px] py-[7px] mb-[26px] animate-[fadeUp_.7s_ease_both]">
+            <div className="absolute bottom-[5%] right-[5%] w-[320px] xl:w-[400px] animate-[float_9s_ease-in-out_infinite] hidden md:block z-20 pointer-events-none">
+                <img src="/assets/Jaguar.png" alt="Jaguar" className="w-full h-auto drop-shadow-2xl scale-x-[-1]" />
+            </div>
+
+            <div className="relative z-[15] text-center max-w-[1080px] flex flex-col items-center">
+
+                <div className="w-[80%] max-w-[600px] mb-8 animate-[fadeUp_.7s_ease_both]">
+                    <img src="/assets/TEXTO_PRINCIPAL.png" alt="7mo Congreso Latinoamericano y Caribeño de Culturas Vivas Comunitarias" className="w-full h-auto drop-shadow-lg" />
+                </div>
+
+                <div className="inline-block bg-[#1a2512] text-amarillo font-barlow-condensed font-[700] text-[13px] tracking-[3px] uppercase px-[24px] py-[10px] mb-[26px] animate-[fadeUp_.7s_ease_.2s_both] shadow-xl border border-amarillo/30 rounded-full">
                     Colombia &middot; Abril 2026 &middot; 20+ Países
                 </div>
 
-                <h1 className="font-playfair text-[clamp(44px,8.5vw,96px)] font-[900] leading-[.93] mb-3 animate-[fadeUp_.7s_ease_.12s_both]">
-                    <span className="text-rojo">Culturas</span>
-                    <br />
-                    <span className="text-amarillo">Vivas</span>
-                    <br />
-                    Comunitarias
-                </h1>
+                <div className="w-[90%] max-w-[700px] mb-12 animate-[fadeUp_.7s_ease_.4s_both]">
+                    <img src="/assets/TEXTO_INFERIOR.png" alt="Pasto - Cali - Medellín" className="w-full h-auto drop-shadow-md" />
+                </div>
 
-                <p className="font-barlow-condensed font-[300] text-[clamp(14px,2.2vw,22px)] tracking-[5px] uppercase text-crema/60 mb-7 animate-[fadeUp_.7s_ease_.24s_both]">
-                    Séptimo Congreso Latinoamericano y Caribeño
-                </p>
-
-                <p className="font-playfair italic text-[clamp(22px,3.8vw,46px)] text-amarillo mb-11 animate-[fadeUp_.7s_ease_.36s_both]">
-                    "Todas las Voces"
-                </p>
-
-                <div className="flex justify-center gap-1 flex-wrap mb-11 animate-[fadeUp_.7s_ease_.46s_both]">
-                    <div className="bg-white/5 border border-white/10 px-[22px] py-[16px] text-center min-w-[170px] transition-all duration-300 hover:-translate-y-1 hover:bg-white/10">
-                        <div className="font-barlow-condensed font-[700] text-[17px] uppercase tracking-[2px] text-pasto">
+                <div className="flex justify-center gap-3 flex-wrap mb-14 animate-[fadeUp_.7s_ease_.6s_both]">
+                    <div className="bg-[#f4efe8] border-2 border-[#E8711A] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#E8711A] rounded-lg">
+                        <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#E8711A]">
                             Pasto
                         </div>
-                        <div className="text-[12px] opacity-[.55] mt-1">17–19 Abril &middot; Nariño</div>
-                        <div className="font-barlow-condensed text-[18px] font-[600] mt-1">{cupos.pasto}</div>
+                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">17–19 Abril</div>
+                        <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#E8711A]/20 py-1 rounded">{cupos.pasto}</div>
                     </div>
-                    <div className="bg-white/5 border border-white/10 px-[22px] py-[16px] text-center min-w-[170px] transition-all duration-300 hover:-translate-y-1 hover:bg-white/10">
-                        <div className="font-barlow-condensed font-[700] text-[17px] uppercase tracking-[2px] text-cali">
+                    <div className="bg-[#f4efe8] border-2 border-[#1A7A3C] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#1A7A3C] rounded-lg">
+                        <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#1A7A3C]">
                             Cali
                         </div>
-                        <div className="text-[12px] opacity-[.55] mt-1">
-                            20–22 Abril &middot; Valle del Cauca
-                        </div>
-                        <div className="font-barlow-condensed text-[18px] font-[600] mt-1">{cupos.cali}</div>
+                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">20–22 Abril</div>
+                        <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#1A7A3C]/20 py-1 rounded">{cupos.cali}</div>
                     </div>
-                    <div className="bg-white/5 border border-white/10 px-[22px] py-[16px] text-center min-w-[170px] transition-all duration-300 hover:-translate-y-1 hover:bg-white/10">
-                        <div className="font-barlow-condensed font-[700] text-[17px] uppercase tracking-[2px] text-medellin">
+                    <div className="bg-[#f4efe8] border-2 border-[#D42B2B] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#D42B2B] rounded-lg">
+                        <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#D42B2B]">
                             Medellín
                         </div>
-                        <div className="text-[12px] opacity-[.55] mt-1">23–26 Abril &middot; Antioquia</div>
-                        <div className="font-barlow-condensed text-[18px] font-[600] mt-1">{cupos.medellin}</div>
+                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">23–26 Abril</div>
+                        <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#D42B2B]/20 py-1 rounded">{cupos.medellin}</div>
                     </div>
                 </div>
 
                 <button
                     onClick={scrollToInscripcion}
-                    className="group inline-block bg-rojo text-white font-barlow-condensed font-[700] text-[17px] tracking-[3px] uppercase px-[48px] py-[17px] border-none cursor-pointer transition-all duration-300 relative overflow-hidden animate-[fadeUp_.7s_ease_.56s_both] hover:text-oscuro hover:-translate-y-1"
+                    className="relative inline-flex items-center justify-center p-4 px-10 py-4 overflow-hidden font-barlow-condensed font-[800] text-[22px] tracking-[2px] text-[#1a2512] transition-all duration-300 bg-[#F5C518] rounded-full hover:bg-[#F5C518] group shadow-[0_10px_40px_-10px_rgba(245,197,24,0.8)] hover:shadow-[0_20px_50px_-10px_rgba(245,197,24,1)] animate-[fadeUp_.7s_ease_.8s_both]"
                 >
-                    <div className="absolute inset-0 bg-amarillo -translate-x-full transition-transform duration-300 z-0 group-hover:translate-x-0"></div>
-                    <span className="relative z-10">✧ Inscríbete ahora</span>
+                    <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-[#E8711A] rounded-full group-hover:w-[120%] group-hover:h-56"></span>
+                    <span className="relative flex items-center gap-2 group-hover:text-white">
+                        ¡Inscríbete a la asamblea!
+                        <svg className="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </span>
                 </button>
             </div>
         </section>

@@ -1,11 +1,20 @@
 export default function About() {
     return (
-        <section className="bg-crema text-oscuro py-[90px] px-5 relative overflow-hidden group">
-            <div className="absolute font-playfair font-[900] text-[280px] right-[-20px] top-1/2 -translate-y-1/2 opacity-[.04] text-rojo leading-none mix-blend-multiply content-['VII'] group-hover:opacity-[.08] transition-opacity duration-500">
+        <section className="bg-[#f4efe8] text-oscuro py-[120px] px-5 relative overflow-hidden group border-t-2 border-oscuro/10">
+            {/* Texture */}
+            <div className="absolute inset-0 opacity-[.35] bg-[url('/assets/paper-texture.png')] mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cream-paper.png')" }}></div>
+
+            <div className="absolute font-playfair font-[900] text-[280px] right-[-20px] top-1/2 -translate-y-1/2 opacity-[.04] text-rojo leading-none mix-blend-multiply content-['VII'] group-hover:opacity-[.08] transition-opacity duration-500 z-0">
                 VII
             </div>
 
-            <div className="max-w-[1080px] mx-auto z-10 relative">
+            {/* Graphic Elements */}
+
+            <div className="absolute top-[5%] right-[-2%] w-[250px] animate-[float_12s_ease-in-out_infinite] hidden md:block z-10 opacity-90 pointer-events-none">
+                <img src="/assets/Planta.png" alt="Planta" className="w-full h-auto drop-shadow-lg" />
+            </div>
+
+            <div className="max-w-[1080px] mx-auto z-20 relative">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[70px] items-center">
                     {/* Text content */}
                     <div>
@@ -68,6 +77,7 @@ export default function About() {
                     </div>
                 </div>
             </div>
+
         </section>
     );
 }
