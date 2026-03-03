@@ -28,13 +28,15 @@ CREATE TABLE public.registros (
 ALTER TABLE public.registros ENABLE ROW LEVEL SECURITY;
 
 -- Cualquiera puede insertar su registro (es público para la landing)
-CREATE POLICY "Public insert" ON public.registros FOR INSERT TO public WITH CHECK (true);
+CREATE POLICY "Anon insert" ON public.registros FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "Auth insert" ON public.registros FOR INSERT TO authenticated WITH CHECK (auth.uid() IS NOT NULL);
 
 -- Todos pueden leer (necesitamos saber cuántos hay registrados y dónde para bloquear cupos)
-CREATE POLICY "Public select" ON public.registros FOR SELECT TO public USING (true);
+CREATE POLICY "Anon select" ON public.registros FOR SELECT TO anon USING (true);
+CREATE POLICY "Auth select" ON public.registros FOR SELECT TO authenticated USING (true);
 
 -- Sólo los administradores pueden hacer update
-CREATE POLICY "Auth update" ON public.registros FOR UPDATE TO authenticated USING (true);
+CREATE POLICY "Auth update" ON public.registros FOR UPDATE TO authenticated USING (auth.uid() IS NOT NULL);
 
 
 -- 2. Tabla de Cupos por País
@@ -50,12 +52,13 @@ CREATE TABLE public.cupos_pais (
 ALTER TABLE public.cupos_pais ENABLE ROW LEVEL SECURITY;
 
 -- Cualquiera puede leer la tabla de cupos (necesario para el form de landing)
-CREATE POLICY "Public select cupos" ON public.cupos_pais FOR SELECT TO public USING (true);
+CREATE POLICY "Anon select cupos" ON public.cupos_pais FOR SELECT TO anon USING (true);
+CREATE POLICY "Auth select cupos" ON public.cupos_pais FOR SELECT TO authenticated USING (true);
 
 -- Sólo admins pueden insertar / actualizar / borrar cupos
-CREATE POLICY "Auth insert cupos" ON public.cupos_pais FOR INSERT TO authenticated WITH CHECK (true);
-CREATE POLICY "Auth update cupos" ON public.cupos_pais FOR UPDATE TO authenticated USING (true);
-CREATE POLICY "Auth delete cupos" ON public.cupos_pais FOR DELETE TO authenticated USING (true);
+CREATE POLICY "Auth insert cupos" ON public.cupos_pais FOR INSERT TO authenticated WITH CHECK (auth.uid() IS NOT NULL);
+CREATE POLICY "Auth update cupos" ON public.cupos_pais FOR UPDATE TO authenticated USING (auth.uid() IS NOT NULL);
+CREATE POLICY "Auth delete cupos" ON public.cupos_pais FOR DELETE TO authenticated USING (auth.uid() IS NOT NULL);
 
 -- Notificación Realtime de Registros (para la nav)
 ALTER PUBLICATION supabase_realtime ADD TABLE public.registros;

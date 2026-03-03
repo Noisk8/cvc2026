@@ -41,6 +41,7 @@ export default function RegistroForm() {
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [formError, setFormError] = useState<string | null>(null);
     const supabase = createClient();
 
     useEffect(() => {
@@ -59,14 +60,17 @@ export default function RegistroForm() {
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
+        setFormError(null);
         setRegistro((prev: any) => ({ ...prev, [name]: value }));
     };
 
     const selectSede = (sede: string) => {
+        setFormError(null);
         setRegistro((prev: any) => ({ ...prev, sede }));
     };
 
     const toggleArrayItem = (field: "intereses" | "necesidades", item: string) => {
+        setFormError(null);
         setRegistro((prev: any) => {
             const list = prev[field] || [];
             const newList = list.includes(item)
@@ -111,24 +115,67 @@ export default function RegistroForm() {
     };
 
     const warning = getCupoWarning();
-    const isBlocked = warning?.isWarn === true || !registro.nombre || !registro.email || !registro.pais || !registro.organizacion || !registro.anos_cvc || !registro.rol || !registro.aporte;
+
+    const validateForm = () => {
+        // Validación de campos vacíos básicos
+        if (!registro.nombre || !registro.email || !registro.telefono || !registro.pais || !registro.ciudad || !registro.genero || !registro.organizacion || !registro.anos_cvc || !registro.etnia || !registro.rol || !registro.descripcion || !registro.aporte || !registro.comite || !registro.sede) {
+            return "Por favor, completa todos los campos del formulario. Todos son requeridos.";
+        }
+
+        // Validación de teléfono: solo números, mínimo 10 dígitos. Opcionalmente celular de Colombia si el país es Colombia
+        const phoneClean = registro.telefono.replace(/[\s\-\+]/g, '');
+        if (registro.pais === "Colombia") {
+            if (!/^573\d{9}$|^3\d{9}$/.test(phoneClean)) {
+                return "Por favor, ingresa un número de celular válido de Colombia (ej. 3001234567 o +573001234567).";
+            }
+        } else {
+            if (phoneClean.length < 8) {
+                return "Por favor, ingresa un número de teléfono válido.";
+            }
+        }
+
+        // Validación de círculos (intereses)
+        if (registro.intereses.length === 0) {
+            return "Por favor, selecciona al menos un interés (Círculos de la Palabra).";
+        }
+
+        // Validación de necesidades
+        if (registro.necesidades.length === 0) {
+            return "Por favor, selecciona al menos una necesidad logística. Si no tienes o ya está cubierta, especifícalo en los comentarios.";
+        }
+
+        return null;
+    };
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        if (isBlocked || !registro.sede) return;
+
+        const errorMsg = validateForm();
+        if (errorMsg) {
+            setFormError(errorMsg);
+            // Scroll to top of form to see error
+            document.getElementById("inscripcion")?.scrollIntoView({ behavior: "smooth" });
+            return;
+        }
+
+        if (warning?.isWarn) {
+            setFormError("No hay cupos disponibles para tu país en la sede seleccionada.");
+            return;
+        }
 
         setLoading(true);
+        setFormError(null);
         try {
             const { error } = await supabase.from("registros").insert([registro]);
             if (error) throw error;
             setSuccess(true);
             setRegistro({
                 ...registro,
-                intereses: [], necesidades: [], notas: "", sede: ""
+                intereses: [], necesidades: [], notas: "", sede: "", nombre: "", email: "", telefono: "", pais: "", ciudad: "", genero: "", organizacion: "", anos_cvc: "", etnia: "", rol: "", descripcion: "", aporte: "", comite: ""
             });
             setTimeout(() => setSuccess(false), 5000);
         } catch (err) {
-            alert("Hubo un error al enviar tu registro.");
+            setFormError("Hubo un error al enviar tu registro. Por favor, intenta de nuevo.");
         } finally {
             setLoading(false);
         }
@@ -168,8 +215,8 @@ export default function RegistroForm() {
                             <input type="email" name="email" value={registro.email} onChange={handleChange} required placeholder="correo@ejemplo.com" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Teléfono / WhatsApp</label>
-                            <input type="tel" name="telefono" value={registro.telefono} onChange={handleChange} placeholder="+57 300 000 0000" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Teléfono / WhatsApp *</label>
+                            <input type="tel" name="telefono" value={registro.telefono} onChange={handleChange} required placeholder="+57 300 000 0000" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
                             <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">País de origen *</label>
@@ -187,13 +234,13 @@ export default function RegistroForm() {
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Ciudad / Región</label>
-                            <input type="text" name="ciudad" value={registro.ciudad} onChange={handleChange} placeholder="¿De dónde vienes?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Ciudad / Región *</label>
+                            <input type="text" name="ciudad" value={registro.ciudad} onChange={handleChange} required placeholder="¿De dónde vienes?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Identidad de género</label>
-                            <select name="genero" value={registro.genero} onChange={handleChange} className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
-                                <option value="">Prefiero no decir</option><option>Mujer</option><option>Hombre</option><option>No binario/a</option><option>Otro</option>
+                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Identidad de género *</label>
+                            <select name="genero" value={registro.genero} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                                <option value="">Selecciona</option><option>Prefiero no decir</option><option>Mujer</option><option>Hombre</option><option>No binario/a</option><option>Otro</option>
                             </select>
                         </div>
                     </div>
@@ -217,9 +264,9 @@ export default function RegistroForm() {
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Pertenencia étnica</label>
-                            <select name="etnia" value={registro.etnia} onChange={handleChange} className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
-                                <option value="">Ninguna / No aplica</option><option>Pueblo originario / indígena</option><option>Afrodescendiente</option><option>Raizal</option><option>Palenquero/a</option><option>Rom / Gitano</option><option>Mestizo/a</option><option>Otro</option>
+                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Pertenencia étnica *</label>
+                            <select name="etnia" value={registro.etnia} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                                <option value="">Selecciona</option><option>Ninguna / No aplica</option><option>Pueblo originario / indígena</option><option>Afrodescendiente</option><option>Raizal</option><option>Palenquero/a</option><option>Rom / Gitano</option><option>Mestizo/a</option><option>Otro</option>
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
@@ -229,8 +276,8 @@ export default function RegistroForm() {
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px] md:col-span-2">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Describe tu proceso o experiencia comunitaria</label>
-                            <textarea name="descripcion" value={registro.descripcion} onChange={handleChange} placeholder="¿Qué hace tu organización? ¿En qué contexto trabajan?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px]"></textarea>
+                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">Describe tu proceso o experiencia comunitaria *</label>
+                            <textarea name="descripcion" value={registro.descripcion} onChange={handleChange} required placeholder="¿Qué hace tu organización? ¿En qué contexto trabajan?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px]"></textarea>
                         </div>
                     </div>
 
@@ -249,9 +296,9 @@ export default function RegistroForm() {
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">¿Perteneces a algún comité?</label>
-                            <select name="comite" value={registro.comite} onChange={handleChange} className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
-                                <option value="No">No</option><option>Sí – Comité Nariño / Pasto</option><option>Sí – Comité Valle / Cali</option><option>Sí – Comité Antioquia / Medellín</option><option>Sí – Comité Nacional</option><option>Sí – Comité Internacional</option>
+                            <label className="font-barlow-condensed text-[11px] tracking-[2px] uppercase text-crema/55">¿Perteneces a algún comité? *</label>
+                            <select name="comite" value={registro.comite} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                                <option value="">Selecciona</option><option value="No">No</option><option>Sí – Comité Nariño / Pasto</option><option>Sí – Comité Valle / Cali</option><option>Sí – Comité Antioquia / Medellín</option><option>Sí – Comité Nacional</option><option>Sí – Comité Internacional</option>
                             </select>
                         </div>
                     </div>
@@ -342,12 +389,18 @@ export default function RegistroForm() {
                         <textarea name="notas" value={registro.notas} onChange={handleChange} placeholder="¿Algo más que quieras contarnos?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[14px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px]"></textarea>
                     </div>
 
+                    {formError && (
+                        <div className="bg-rojo/10 border border-rojo/30 text-[#ff9090] p-4 text-[14px] leading-[1.5] mt-6 text-center font-barlow font-[500]">
+                            {formError}
+                        </div>
+                    )}
+
                     <div className="flex flex-col md:flex-row items-center justify-between gap-4 flex-wrap mt-7">
                         <p className="text-[12px] text-crema/40 max-w-[280px] leading-[1.5] text-center md:text-left">
-                            Al inscribirte confirmas tu interés. El equipo organizador se pondrá en contacto pronto.
+                            Al inscribirte confirmas tu interés. El equipo organizador se pondrá en contacto pronto. Los campos con * son obligatorios.
                         </p>
-                        <button type="submit" disabled={isBlocked || loading || !registro.sede} className="w-full md:w-auto overflow-hidden relative group bg-rojo text-white border-none font-barlow-condensed font-[700] text-[16px] tracking-[3px] uppercase px-11 py-4 cursor-pointer transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5">
-                            <div className={`absolute inset-0 bg-verde origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 z-0 ${(isBlocked || loading || !registro.sede) ? 'hidden' : ''}`}></div>
+                        <button type="submit" disabled={loading} className="w-full md:w-auto overflow-hidden relative group bg-rojo text-white border-none font-barlow-condensed font-[700] text-[16px] tracking-[3px] uppercase px-11 py-4 cursor-pointer transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5">
+                            <div className={`absolute inset-0 bg-verde origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 z-0 ${loading ? 'hidden' : ''}`}></div>
                             <span className="relative z-10">{loading ? 'Enviando...' : success ? '✓ Inscripción Enviada' : 'Inscribirme al Congreso →'}</span>
                         </button>
                     </div>

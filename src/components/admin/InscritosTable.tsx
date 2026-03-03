@@ -85,17 +85,55 @@ export default function InscritosTable({ registros, cuposConfig, refreshData }: 
                         <div className="font-playfair text-[26px] font-[700] mb-1">{modalRegistro.nombre}</div>
                         <div className="text-[14px] text-crema/50 mb-5">{modalRegistro.organizacion} · {new Date(modalRegistro.created_at).toLocaleDateString()}</div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-5 mb-6">
                             <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Email</label><p className="text-[13px]">{modalRegistro.email}</p></div>
                             <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Teléfono</label><p className="text-[13px]">{modalRegistro.telefono || '—'}</p></div>
                             <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">País</label><p className="text-[13px]">{modalRegistro.pais}</p></div>
+                            <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Ciudad</label><p className="text-[13px]">{modalRegistro.ciudad || '—'}</p></div>
+                            <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Sede(s)</label><p className="text-[13px]">{modalRegistro.sede}</p></div>
                             <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Rol</label><p className="text-[13px]">{modalRegistro.rol}</p></div>
+                            <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Género</label><p className="text-[13px]">{modalRegistro.genero || '—'}</p></div>
+                            <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Etnia</label><p className="text-[13px]">{modalRegistro.etnia || '—'}</p></div>
+                            <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Años CVC</label><p className="text-[13px]">{modalRegistro.anos_cvc || '—'}</p></div>
+                            <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Comité</label><p className="text-[13px]">{modalRegistro.comite || '—'}</p></div>
+                            <div className="sm:col-span-2"><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Aporte de la organización</label><p className="text-[13px]">{modalRegistro.aporte || '—'}</p></div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                            {modalRegistro.intereses && modalRegistro.intereses.length > 0 && (
+                                <div>
+                                    <h4 className="font-barlow-condensed text-[11px] tracking-[3px] uppercase text-amarillo mb-2 border-b border-white/10 pb-1">Círculos de interés</h4>
+                                    <ul className="list-disc list-outside ml-4 text-[13px] leading-[1.6] text-crema/70 space-y-1">
+                                        {modalRegistro.intereses.map((interes: string, idx: number) => (
+                                            <li key={idx} className="break-words pl-1">{interes}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
+                            {modalRegistro.necesidades && modalRegistro.necesidades.length > 0 && (
+                                <div>
+                                    <h4 className="font-barlow-condensed text-[11px] tracking-[3px] uppercase text-amarillo mb-2 border-b border-white/10 pb-1">Necesidades logísticas</h4>
+                                    <ul className="list-disc list-outside ml-4 text-[13px] leading-[1.6] text-crema/70 space-y-1">
+                                        {modalRegistro.necesidades.map((necesidad: string, idx: number) => (
+                                            <li key={idx} className="break-words pl-1">{necesidad}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                         </div>
 
                         {modalRegistro.descripcion && (
-                            <div className="mb-4">
-                                <h4 className="font-barlow-condensed text-[11px] tracking-[3px] uppercase text-amarillo mb-2">Proceso comunitario</h4>
-                                <p className="text-[13px] leading-[1.7] text-crema/70">{modalRegistro.descripcion}</p>
+                            <div className="mb-5">
+                                <h4 className="font-barlow-condensed text-[11px] tracking-[3px] uppercase text-amarillo mb-2 border-b border-white/10 pb-1">Proceso comunitario</h4>
+                                <p className="text-[13px] leading-[1.7] text-crema/70 whitespace-pre-wrap">{modalRegistro.descripcion}</p>
+                            </div>
+                        )}
+
+                        {modalRegistro.notas && (
+                            <div className="mb-5">
+                                <h4 className="font-barlow-condensed text-[11px] tracking-[3px] uppercase text-amarillo mb-2 border-b border-white/10 pb-1">Comentarios Adicionales</h4>
+                                <p className="text-[13px] leading-[1.7] text-crema/70 whitespace-pre-wrap">{modalRegistro.notas}</p>
                             </div>
                         )}
 
