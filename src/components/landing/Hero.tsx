@@ -45,7 +45,7 @@ export default function Hero() {
                 backgroundImage: `radial-gradient(#0E5A7A 2.5px, transparent 2.5px)`,
                 backgroundSize: '15px 15px'
             }}></div>
-            <div className="absolute inset-0 opacity-[.20] bg-[url('/assets/paper-texture.png')] mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cream-paper.png')" }}></div>
+            <div className="absolute inset-0 opacity-[.20] mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url('/assets/cream-paper.webp')" }}></div>
 
             {/* Organic Borders Frame (Enredaderas) */}
             <div className="absolute top-[-5%] left-[-5%] w-[400px] xl:w-[500px] pointer-events-none opacity-90 z-0 origin-center rotate-[130deg]">
@@ -70,7 +70,7 @@ export default function Hero() {
             <div className="relative z-[15] text-center max-w-[1080px] flex flex-col items-center">
 
                 <div className="w-[80%] max-w-[600px] mb-8 animate-[fadeUp_.7s_ease_both]">
-                    <Image src="/assets/TEXTO_PRINCIPAL.png" alt="7mo Congreso Latinoamericano y Caribeño de Culturas Vivas Comunitarias" width={600} height={158} priority={true} fetchPriority="high" sizes="(max-width: 480px) 300px, (max-width: 768px) 400px, 600px" className="w-full h-auto drop-shadow-lg" />
+                    <Image src="/assets/TEXTO_PRINCIPAL.png" alt="7mo Congreso Latinoamericano y Caribeño de Culturas Vivas Comunitarias" width={600} height={158} priority={true} fetchPriority="high" sizes="(max-width: 480px) 300px, (max-width: 768px) 400px, 600px" quality={60} className="w-full h-auto drop-shadow-lg" />
                 </div>
 
                 <div className="inline-block bg-[#1a2512] text-amarillo font-barlow-condensed font-[700] text-[13px] tracking-[3px] uppercase px-[24px] py-[10px] mb-[26px] animate-[fadeUp_.7s_ease_.2s_both] shadow-xl border border-amarillo/30 rounded-full">
@@ -78,7 +78,7 @@ export default function Hero() {
                 </div>
 
                 <div className="w-[90%] max-w-[700px] mb-12 animate-[fadeUp_.7s_ease_.4s_both]">
-                    <Image src="/assets/TEXTO_INFERIOR.png" alt="Pasto - Cali - Medellín" width={700} height={42} priority={true} fetchPriority="high" sizes="(max-width: 480px) 350px, (max-width: 768px) 500px, 700px" className="w-full h-auto drop-shadow-md" />
+                    <Image src="/assets/TEXTO_INFERIOR.png" alt="Pasto - Cali - Medellín" width={700} height={42} priority={true} fetchPriority="high" sizes="(max-width: 480px) 350px, (max-width: 768px) 500px, 700px" quality={60} className="w-full h-auto drop-shadow-md" />
                 </div>
 
                 <div className="flex justify-center gap-3 flex-wrap mb-14 animate-[fadeUp_.7s_ease_.6s_both]">
