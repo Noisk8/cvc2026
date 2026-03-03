@@ -13,7 +13,7 @@ export default function About() {
             {/* Graphic Elements */}
 
             <div className="absolute top-[-20%] right-[-2%] w-[250px] animate-[float_12s_ease-in-out_infinite] hidden md:block z-10 opacity-90 pointer-events-none">
-                <Image src="/assets/Planta.png" alt="Planta" width={400} height={400} className="w-full h-auto drop-shadow-lg" />
+                <Image src="/assets/Planta.png" alt="Planta" width={250} height={250} sizes="(max-width: 768px) 0px, 250px" className="w-full h-auto drop-shadow-lg" />
             </div>
 
             <div className="max-w-[1080px] mx-auto z-20 relative">
