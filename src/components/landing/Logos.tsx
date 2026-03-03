@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Logos() {
     return (
         <section className="bg-[#e0ded6] text-oscuro py-[80px] px-5 relative overflow-hidden border-t-2 border-[#1a2512]/10">
@@ -14,15 +16,15 @@ export default function Logos() {
                 </div>
 
                 <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16 opacity-80 mix-blend-multiply">
-                    <img src="/assets/logos/1_Logo_latam_y_el_caribe_letras_color_fondo_transparente.png" alt="Logo CVC LATAM" className="h-[100px] w-auto max-w-[130px] object-contain hover:scale-105 transition-transform duration-300" />
-                    <img src="/assets/logos/CULTURASCOLOR.png" alt="Culturas Vivas" className="h-[100px] w-auto max-w-[150px] object-contain hover:scale-105 transition-transform duration-300" />
-                    <img src="/assets/logos/Programa_Nacional_CVC_Color.png" alt="Programa Nacional CVC" className="h-[100px] w-auto max-w-[110px] object-contain hover:scale-105 transition-transform duration-300" />
-                    <img src="/assets/logos/Logo_CVC_Nariño_y_Putumayo__jpg.png" alt="CVC Nariño" className="h-[100px] w-auto max-w-[110px] object-contain hover:scale-105 transition-transform duration-300" />
-                    <img src="/assets/logos/Logo_Plataforma_y_Mapa_Congreso.png" alt="Plataforma CVC" className="h-[100px] w-auto max-w-[200px] object-contain hover:scale-105 transition-transform duration-300" />
-                    <img src="/assets/logos/logos_cvc_suroccidente_colMesa_de_trabajo_2.png" alt="CVC Suroccidente 2" className="h-[100px] w-auto max-w-[110px] object-contain hover:scale-105 transition-transform duration-300" />
-                    <img src="/assets/logos/Copia_de_logos_cvc_suroccidente_colMesa_de_trabajo_3.png" alt="CVC Suroccidente 3" className="h-[100px] w-auto max-w-[110px] object-contain hover:scale-105 transition-transform duration-300" />
-                    <img src="/assets/logos/Copia_de_logos_cvc_suroccidente_colMesa_de_trabajo_4.png" alt="CVC Suroccidente 4" className="h-[100px] w-auto max-w-[180px] object-contain hover:scale-105 transition-transform duration-300" />
-                    <img src="/assets/logos/Logo.png" alt="Logo Plat" className="h-[100px] w-auto max-w-[110px] object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/1_Logo_latam_y_el_caribe_letras_color_fondo_transparente.png" alt="Logo CVC LATAM" width={400} height={400} className="h-[100px] w-auto max-w-[130px] object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/CULTURASCOLOR.png" alt="Culturas Vivas" width={400} height={300} className="h-[100px] w-auto max-w-[150px] object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/Programa_Nacional_CVC_Color.png" alt="Programa Nacional CVC" width={400} height={400} className="h-[100px] w-auto max-w-[110px] object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/Logo_CVC_Nariño_y_Putumayo__jpg.png" alt="CVC Nariño" width={300} height={400} className="h-[100px] w-auto max-w-[110px] object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/Logo_Plataforma_y_Mapa_Congreso.png" alt="Plataforma CVC" width={600} height={200} className="h-[100px] w-auto max-w-[200px] object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/logos_cvc_suroccidente_colMesa_de_trabajo_2.png" alt="CVC Suroccidente 2" width={400} height={400} className="h-[100px] w-auto max-w-[110px] object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/Copia_de_logos_cvc_suroccidente_colMesa_de_trabajo_3.png" alt="CVC Suroccidente 3" width={400} height={400} className="h-[100px] w-auto max-w-[110px] object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/Copia_de_logos_cvc_suroccidente_colMesa_de_trabajo_4.png" alt="CVC Suroccidente 4" width={400} height={400} className="h-[100px] w-auto max-w-[180px] object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/Logo.png" alt="Logo Plat" width={400} height={200} className="h-[100px] w-auto max-w-[110px] object-contain hover:scale-105 transition-transform duration-300" />
                 </div>
             </div>
         </section>

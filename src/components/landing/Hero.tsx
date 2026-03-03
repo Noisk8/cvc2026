@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 
 const CAP_SEDE = { Pasto: 150, Cali: 250, Medellin: 450 };
@@ -48,28 +49,28 @@ export default function Hero() {
 
             {/* Organic Borders Frame (Enredaderas) */}
             <div className="absolute top-[-5%] left-[-5%] w-[400px] xl:w-[500px] pointer-events-none opacity-90 z-0 origin-center rotate-[130deg]">
-                <img src="/assets/Planta.png" alt="Enredadera Izquierda Superior" className="w-full h-auto drop-shadow-xl" />
+                <Image src="/assets/Planta.png" alt="Enredadera Izquierda Superior" width={800} height={800} priority={true} className="w-full h-auto drop-shadow-xl" />
             </div>
             <div className="absolute bottom-[-10%] right-[-10%] w-[500px] xl:w-[600px] pointer-events-none opacity-90 z-0 origin-center rotate-[-30deg]">
-                <img src="/assets/Planta.png" alt="Enredadera Derecha Inferior" className="w-full h-auto drop-shadow-xl" />
+                <Image src="/assets/Planta.png" alt="Enredadera Derecha Inferior" width={800} height={800} className="w-full h-auto drop-shadow-xl" />
             </div>
             <div className="absolute top-[-10%] right-[-5%] w-[350px] xl:w-[450px] pointer-events-none opacity-80 z-0 origin-center rotate-[-120deg] scale-x-[-1]">
-                <img src="/assets/Planta.png" alt="Enredadera Derecha Superior" className="w-full h-auto drop-shadow-xl" />
+                <Image src="/assets/Planta.png" alt="Enredadera Derecha Superior" width={800} height={800} className="w-full h-auto drop-shadow-xl" />
             </div>
 
             {/* Graphic Elements */}
             <div className="absolute bottom-[2%] left-[1%] w-[350px] xl:w-[355px] animate-[float_12s_ease-in-out_infinite_reverse] hidden xl:block z-10 pointer-events-none">
-                <img src="/assets/guacamaya.png" alt="Guacamaya" className="w-full h-auto drop-shadow-2xl opacity-90" />
+                <Image src="/assets/guacamaya.png" alt="Guacamaya" width={600} height={600} className="w-full h-auto drop-shadow-2xl opacity-90" />
             </div>
 
             <div className="absolute bottom-[25%] right-[2%] w-[320px] xl:w-[400px] animate-[float_9s_ease-in-out_infinite] hidden md:block z-20 pointer-events-none">
-                <img src="/assets/Jaguar.png" alt="Jaguar" className="w-full h-auto drop-shadow-2xl scale-x-[-1]" />
+                <Image src="/assets/Jaguar.png" alt="Jaguar" width={600} height={600} className="w-full h-auto drop-shadow-2xl scale-x-[-1]" />
             </div>
 
             <div className="relative z-[15] text-center max-w-[1080px] flex flex-col items-center">
 
                 <div className="w-[80%] max-w-[600px] mb-8 animate-[fadeUp_.7s_ease_both]">
-                    <img src="/assets/TEXTO_PRINCIPAL.png" alt="7mo Congreso Latinoamericano y Caribeño de Culturas Vivas Comunitarias" className="w-full h-auto drop-shadow-lg" />
+                    <Image src="/assets/TEXTO_PRINCIPAL.png" alt="7mo Congreso Latinoamericano y Caribeño de Culturas Vivas Comunitarias" width={1200} height={316} priority={true} className="w-full h-auto drop-shadow-lg" />
                 </div>
 
                 <div className="inline-block bg-[#1a2512] text-amarillo font-barlow-condensed font-[700] text-[13px] tracking-[3px] uppercase px-[24px] py-[10px] mb-[26px] animate-[fadeUp_.7s_ease_.2s_both] shadow-xl border border-amarillo/30 rounded-full">
@@ -77,7 +78,7 @@ export default function Hero() {
                 </div>
 
                 <div className="w-[90%] max-w-[700px] mb-12 animate-[fadeUp_.7s_ease_.4s_both]">
-                    <img src="/assets/TEXTO_INFERIOR.png" alt="Pasto - Cali - Medellín" className="w-full h-auto drop-shadow-md" />
+                    <Image src="/assets/TEXTO_INFERIOR.png" alt="Pasto - Cali - Medellín" width={1400} height={84} priority={true} className="w-full h-auto drop-shadow-md" />
                 </div>
 
                 <div className="flex justify-center gap-3 flex-wrap mb-14 animate-[fadeUp_.7s_ease_.6s_both]">

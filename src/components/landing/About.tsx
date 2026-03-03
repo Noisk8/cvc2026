@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function About() {
     return (
         <section className="bg-[#f4efe8] text-oscuro py-[120px] px-5 relative overflow-hidden group border-t-2 border-oscuro/10">
@@ -11,7 +13,7 @@ export default function About() {
             {/* Graphic Elements */}
 
             <div className="absolute top-[-20%] right-[-2%] w-[250px] animate-[float_12s_ease-in-out_infinite] hidden md:block z-10 opacity-90 pointer-events-none">
-                <img src="/assets/Planta.png" alt="Planta" className="w-full h-auto drop-shadow-lg" />
+                <Image src="/assets/Planta.png" alt="Planta" width={400} height={400} className="w-full h-auto drop-shadow-lg" />
             </div>
 
             <div className="max-w-[1080px] mx-auto z-20 relative">

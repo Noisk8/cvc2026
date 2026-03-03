@@ -224,20 +224,20 @@ export default function RegistroForm() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[18px] mb-[22px]">
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Nombre completo *</label>
-                            <input type="text" name="nombre" value={registro.nombre} onChange={handleChange} required placeholder="Nombre y apellido" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label htmlFor="nombre" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Nombre completo *</label>
+                            <input id="nombre" type="text" name="nombre" value={registro.nombre} onChange={handleChange} required placeholder="Nombre y apellido" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Correo electrónico *</label>
-                            <input type="email" name="email" value={registro.email} onChange={handleChange} required placeholder="correo@ejemplo.com" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label htmlFor="email" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Correo electrónico *</label>
+                            <input id="email" type="email" name="email" value={registro.email} onChange={handleChange} required placeholder="correo@ejemplo.com" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Teléfono / WhatsApp *</label>
-                            <input type="tel" name="telefono" value={registro.telefono} onChange={handleChange} required placeholder="+57 300 000 0000" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label htmlFor="telefono" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Teléfono / WhatsApp *</label>
+                            <input id="telefono" type="tel" name="telefono" value={registro.telefono} onChange={handleChange} required placeholder="+57 300 000 0000" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">País de origen *</label>
-                            <select name="pais" value={registro.pais} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512] [&>optgroup]:bg-[#1a2512]">
+                            <label htmlFor="pais" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">País de origen *</label>
+                            <select id="pais" name="pais" value={registro.pais} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512] [&>optgroup]:bg-[#1a2512]">
                                 <option value="">Selecciona tu país</option>
                                 <optgroup label="América del Sur">
                                     <option>Argentina</option><option>Bolivia</option><option>Brasil</option><option>Chile</option><option>Colombia</option><option>Ecuador</option><option>Paraguay</option><option>Perú</option><option>Uruguay</option><option>Venezuela</option>
@@ -251,12 +251,12 @@ export default function RegistroForm() {
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Ciudad / Región *</label>
-                            <input type="text" name="ciudad" value={registro.ciudad} onChange={handleChange} required placeholder="¿De dónde vienes?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label htmlFor="ciudad" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Ciudad / Región *</label>
+                            <input id="ciudad" type="text" name="ciudad" value={registro.ciudad} onChange={handleChange} required placeholder="¿De dónde vienes?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Identidad de género *</label>
-                            <select name="genero" value={registro.genero} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label htmlFor="genero" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Identidad de género *</label>
+                            <select id="genero" name="genero" value={registro.genero} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Selecciona</option><option>Prefiero no decir</option><option>Mujer</option><option>Hombre</option><option>No binario/a</option><option>Otro</option>
                             </select>
                         </div>
@@ -271,31 +271,31 @@ export default function RegistroForm() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[18px]">
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Organización / colectivo *</label>
-                            <input type="text" name="organizacion" value={registro.organizacion} onChange={handleChange} required placeholder="Nombre de tu organización" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label htmlFor="organizacion" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Organización / colectivo *</label>
+                            <input id="organizacion" type="text" name="organizacion" value={registro.organizacion} onChange={handleChange} required placeholder="Nombre de tu organización" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">¿Cuántos años lleva tu proceso CVC? *</label>
-                            <select name="anos_cvc" value={registro.anos_cvc} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label htmlFor="anos_cvc" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">¿Cuántos años lleva tu proceso CVC? *</label>
+                            <select id="anos_cvc" name="anos_cvc" value={registro.anos_cvc} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Selecciona</option><option>Menos de 1 año</option><option>1 - 3 años</option><option>4 - 7 años</option><option>8 - 12 años</option><option>13 - 20 años</option><option>Más de 20 años</option>
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Pertenencia étnica *</label>
-                            <select name="etnia" value={registro.etnia} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label htmlFor="etnia" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Pertenencia étnica *</label>
+                            <select id="etnia" name="etnia" value={registro.etnia} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Selecciona</option><option>Ninguna / No aplica</option><option>Pueblo originario / indígena</option><option>Afrodescendiente</option><option>Raizal</option><option>Palenquero/a</option><option>Rom / Gitano</option><option>Mestizo/a</option><option>Otro</option>
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Rol en el congreso *</label>
-                            <select name="rol" value={registro.rol} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label htmlFor="rol" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Rol en el congreso *</label>
+                            <select id="rol" name="rol" value={registro.rol} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Cómo participas</option><option>Ponente de experiencia significativa</option><option>Artista / Performer</option><option>Gestor/a cultural comunitario/a</option><option>Mediador/a cultural</option><option>Formador/a / Educador/a popular</option><option>Investigador/a</option><option>Delegado/a de gobierno</option><option>Participante general</option>
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px] md:col-span-2 mt-2">
-                            <label className="font-barlow-condensed text-[16px] tracking-[2px] uppercase text-crema/80">Descripción y justificación de tu propuesta o experiencia *</label>
+                            <label htmlFor="descripcion" className="font-barlow-condensed text-[16px] tracking-[2px] uppercase text-crema/80">Descripción y justificación de tu propuesta o experiencia *</label>
                             <p className="text-[16px] text-crema/40 leading-[1.5] mb-2">Para que tu participación sea más significativa, cuéntanos en 100-300 palabras: ¿De qué trata tu proceso u organización? ¿En qué contexto o territorio trabajan? ¿Cuáles son sus principales metodologías o impactos? Si eres ponente o artista, describe brevemente la experiencia o acto que te gustaría compartir en el Congreso.</p>
-                            <textarea name="descripcion" value={registro.descripcion} onChange={handleChange} required placeholder="Escribe aquí el resumen de tu proceso y/o propuesta..." className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[140px] resize-y"></textarea>
+                            <textarea id="descripcion" name="descripcion" value={registro.descripcion} onChange={handleChange} required placeholder="Escribe aquí el resumen de tu proceso y/o propuesta..." className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[140px] resize-y"></textarea>
                         </div>
                     </div>
 
@@ -308,14 +308,14 @@ export default function RegistroForm() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[18px]">
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">¿Vas a pagar aporte? *</label>
-                            <select name="aporte" value={registro.aporte} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label htmlFor="aporte" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">¿Vas a pagar aporte? *</label>
+                            <select id="aporte" name="aporte" value={registro.aporte} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Selecciona</option><option>Sí, puedo pagar el aporte completo</option><option>Sí, puedo pagar un aporte parcial</option><option>Necesito apoyo / beca</option><option>Mi organización cubre los costos</option><option>Gobierno / institución cubre costos</option>
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">¿Perteneces a algún comité? *</label>
-                            <select name="comite" value={registro.comite} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <label htmlFor="comite" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">¿Perteneces a algún comité? *</label>
+                            <select id="comite" name="comite" value={registro.comite} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Selecciona</option><option value="No">No</option><option>Sí – Comité Nariño / Pasto</option><option>Sí – Comité Valle / Cali</option><option>Sí – Comité Antioquia / Medellín</option><option>Sí – Comité Nacional</option><option>Sí – Comité Internacional</option>
                             </select>
                         </div>
@@ -403,8 +403,8 @@ export default function RegistroForm() {
                     <div className="h-[1px] bg-white/5 my-7"></div>
 
                     <div className="flex flex-col gap-[7px]">
-                        <label className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Comentarios adicionales</label>
-                        <textarea name="notas" value={registro.notas} onChange={handleChange} placeholder="¿Algo más que quieras contarnos?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px]"></textarea>
+                        <label htmlFor="notas" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Comentarios adicionales</label>
+                        <textarea id="notas" name="notas" value={registro.notas} onChange={handleChange} placeholder="¿Algo más que quieras contarnos?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px]"></textarea>
                     </div>
 
                     {formError && (
