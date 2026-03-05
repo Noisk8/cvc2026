@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
     const [count, setCount] = useState<number>(0);
@@ -49,6 +50,7 @@ export default function Navbar() {
                     ✧ VII Congreso · 2026
                 </div>
                 <div className="flex items-center gap-3">
+                    <LanguageSwitcher />
                     {count > 0 && (
                         <div className="font-[700] text-[12px] bg-rojo text-white px-3 py-1 font-barlow-condensed">
                             {count} inscrito{count !== 1 ? "s" : ""}

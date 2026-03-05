@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 
 const CAP_SEDE = { Pasto: 150, Cali: 250, Medellin: 450 };
 
 export default function Hero() {
+    const t = useTranslations('hero');
     const [cupos, setCupos] = useState({ pasto: "...", cali: "...", medellin: "..." });
     const supabase = createClient();
 
@@ -24,14 +26,14 @@ export default function Hero() {
             const lMed = Math.max(0, CAP_SEDE.Medellin - cMed);
 
             setCupos({
-                pasto: lPasto > 0 ? `${lPasto} cupos` : "Agotado",
-                cali: lCali > 0 ? `+${lCali} disponibles` : "Agotado",
-                medellin: lMed > 0 ? `+${lMed} disponibles` : "Agotado",
+                pasto: lPasto > 0 ? t('cupos', { count: lPasto }) : t('agotado'),
+                cali: lCali > 0 ? t('disponibles', { count: lCali }) : t('agotado'),
+                medellin: lMed > 0 ? t('disponibles', { count: lMed }) : t('agotado'),
             });
         }
 
         fetchCupos();
-    }, [supabase]);
+    }, [supabase, t]);
 
     const scrollToInscripcion = () => {
         document.getElementById("inscripcion")?.scrollIntoView({ behavior: "smooth" });
@@ -49,22 +51,22 @@ export default function Hero() {
 
             {/* Organic Borders Frame (Enredaderas) */}
             <div className="absolute top-[-5%] left-[-5%] w-[400px] xl:w-[500px] pointer-events-none opacity-90 z-0 origin-center rotate-[130deg]">
-                <Image src="/assets/Planta.png" alt="Enredadera Izquierda Superior" width={500} height={500} priority={true} fetchPriority="high" sizes="(max-width: 768px) 250px, (max-width: 1280px) 400px, 500px" className="w-full h-auto drop-shadow-xl" />
+                <Image src="/assets/Planta.png" alt="Enredadera Izquierda Superior" width={500} height={500} priority={true} fetchPriority="high" sizes="(max-width: 768px) 250px, (max-width: 1280px) 400px, 500px" className="w-full h-auto drop-shadow-xl" style={{ height: 'auto' }} />
             </div>
             <div className="absolute bottom-[-10%] right-[-10%] w-[500px] xl:w-[600px] pointer-events-none opacity-90 z-0 origin-center rotate-[-30deg]">
-                <Image src="/assets/Planta.png" alt="Enredadera Derecha Inferior" width={600} height={600} sizes="(max-width: 768px) 300px, (max-width: 1280px) 500px, 600px" className="w-full h-auto drop-shadow-xl" />
+                <Image src="/assets/Planta.png" alt="Enredadera Derecha Inferior" width={600} height={600} sizes="(max-width: 768px) 300px, (max-width: 1280px) 500px, 600px" className="w-full h-auto drop-shadow-xl" style={{ height: 'auto' }} />
             </div>
             <div className="absolute top-[-10%] right-[-5%] w-[350px] xl:w-[450px] pointer-events-none opacity-80 z-0 origin-center rotate-[-120deg] scale-x-[-1]">
-                <Image src="/assets/Planta.png" alt="Enredadera Derecha Superior" width={450} height={450} sizes="(max-width: 768px) 200px, (max-width: 1280px) 350px, 450px" className="w-full h-auto drop-shadow-xl" />
+                <Image src="/assets/Planta.png" alt="Enredadera Derecha Superior" width={450} height={450} sizes="(max-width: 768px) 200px, (max-width: 1280px) 350px, 450px" className="w-full h-auto drop-shadow-xl" style={{ height: 'auto' }} />
             </div>
 
             {/* Graphic Elements */}
             <div className="absolute bottom-[2%] left-[1%] w-[350px] xl:w-[355px] animate-[float_12s_ease-in-out_infinite_reverse] hidden xl:block z-10 pointer-events-none">
-                <Image src="/assets/guacamaya.png" alt="Guacamaya" width={355} height={355} sizes="(max-width: 1280px) 0px, 355px" className="w-full h-auto drop-shadow-2xl opacity-90" />
+                <Image src="/assets/guacamaya.png" alt="Guacamaya" width={355} height={355} sizes="(max-width: 1280px) 0px, 355px" className="w-full h-auto drop-shadow-2xl opacity-90" style={{ height: 'auto' }} />
             </div>
 
-            <div className="absolute bottom-[25%] right-[2%] w-[320px] xl:w-[400px] animate-[float_9s_ease-in-out_infinite] hidden md:block z-20 pointer-events-none">
-                <Image src="/assets/Jaguar.png" alt="Jaguar" width={400} height={400} sizes="(max-width: 768px) 0px, (max-width: 1280px) 320px, 400px" className="w-full h-auto drop-shadow-2xl scale-x-[-1]" />
+            <div className="absolute bottom-[25%] right-[2%] w-[320px] xl:w-[400px] animate-[float_9s_ease-in-out_infinite] hidden xl:block z-20 pointer-events-none">
+                <Image src="/assets/Jaguar.png" alt="Jaguar" width={400} height={400} sizes="(max-width: 768px) 0px, (max-width: 1280px) 320px, 400px" className="w-full h-auto drop-shadow-2xl scale-x-[-1]" style={{ height: 'auto' }} />
             </div>
 
             <div className="relative z-[15] text-center max-w-[1080px] flex flex-col items-center">
@@ -74,7 +76,7 @@ export default function Hero() {
                 </div>
 
                 <div className="inline-block bg-[#1a2512] text-amarillo font-barlow-condensed font-[700] text-[13px] tracking-[3px] uppercase px-[24px] py-[10px] mb-[26px] animate-[fadeUp_.7s_ease_.2s_both] shadow-xl border border-amarillo/30 rounded-full">
-                    Colombia &middot; Abril 2026 &middot; 20+ Países
+                    {t('badge')}
                 </div>
 
                 <div className="w-[90%] max-w-[700px] mb-12 animate-[fadeUp_.7s_ease_.4s_both]">
@@ -84,7 +86,7 @@ export default function Hero() {
                 <div className="flex justify-center gap-3 flex-wrap mb-14 animate-[fadeUp_.7s_ease_.6s_both]">
                     <div className="bg-[#f4efe8] border-2 border-[#E8711A] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#E8711A] rounded-lg">
                         <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#E8711A]">
-                            Pasto
+                            Medellín
                         </div>
                         <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">17–19 Abril</div>
                         <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#E8711A]/20 py-1 rounded">{cupos.pasto}</div>
@@ -93,14 +95,14 @@ export default function Hero() {
                         <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#1A7A3C]">
                             Cali
                         </div>
-                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">20–22 Abril</div>
+                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">20–21 Abril</div>
                         <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#1A7A3C]/20 py-1 rounded">{cupos.cali}</div>
                     </div>
                     <div className="bg-[#f4efe8] border-2 border-[#D42B2B] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#D42B2B] rounded-lg">
                         <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#D42B2B]">
-                            Medellín
+                            Pasto
                         </div>
-                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">23–26 Abril</div>
+                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">22–26 Abril</div>
                         <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#D42B2B]/20 py-1 rounded">{cupos.medellin}</div>
                     </div>
                 </div>
@@ -111,7 +113,7 @@ export default function Hero() {
                 >
                     <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-[#E8711A] rounded-full group-hover:w-[120%] group-hover:h-56"></span>
                     <span className="relative flex items-center gap-2 group-hover:text-white">
-                        ¡Inscríbete a la asamblea!
+                        {t('cta')}
                         <svg className="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                     </span>
                 </button>

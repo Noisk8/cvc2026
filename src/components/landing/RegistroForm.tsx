@@ -2,24 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 
-const OPCIONES_INTERESES = [
-    "Arte para la transformación social", "Comunicación libre y compartida",
-    "Memoria y patrimonio", "Ciencia y tecnología comunitaria",
-    "Letras y palabras", "Actos festivos comunitarios",
-    "Mediación cultural", "Educación popular · Universidad",
-    "Géneros y feminismos", "Salud y buen vivir",
-    "Otras economías · Cooperación", "Pueblos originarios y étnicos",
-    "Niñeces, adolescencias y juventudes", "Derechos humanos · Justicia Cultural",
-    "Gobernanza y políticas públicas"
-];
 
-const OPCIONES_NECESIDADES = [
-    "Alojamiento", "Apoyo de transporte", "Alimentación especial",
-    "Accesibilidad / movilidad reducida", "Intérprete / traducción",
-    "Cuidado de niñes", "Visa / carta de invitación",
-    "Apoyo para ponencia", "Beca / subsidio"
-];
 
 interface CupoPais {
     pais: string;
@@ -29,12 +14,19 @@ interface CupoPais {
 }
 
 export default function RegistroForm() {
+    const t = useTranslations('form');
     const [registro, setRegistro] = useState<any>({
-        nombre: "", email: "", telefono: "", pais: "", ciudad: "",
-        genero: "", organizacion: "", anos_cvc: "", etnia: "",
+        nombre: "", apellido: "", identificacion: "", edad: "",
+        email: "", telefono: "", pais: "", ciudad: "",
+        genero: "", organizacion: "", actividad_principal: "", participacion_previa: "", anos_cvc: "", etnia: "",
         rol: "", descripcion: "", aporte: "", comite: "No",
-        sede: "", intereses: [], necesidades: [], notas: ""
+        carta_aval: "", sede: "", intereses: [], necesidades: [], notas: "",
+        comprobante_pago: "", fecha_transferencia: "", nombre_pagador: "", monto_superior: "", aporte_minga: "",
+        compromiso_convivencia: false
     });
+
+    const [uploadingCarta, setUploadingCarta] = useState(false);
+    const [uploadingComprobante, setUploadingComprobante] = useState(false);
 
     const [cuposConfig, setCuposConfig] = useState<CupoPais[]>([]);
     const [registrosConfirmados, setRegistrosConfirmados] = useState<any[]>([]);
@@ -59,9 +51,78 @@ export default function RegistroForm() {
     }, [supabase]);
 
     const handleChange = (e: any) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         setFormError(null);
-        setRegistro((prev: any) => ({ ...prev, [name]: value }));
+        setRegistro((prev: any) => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
+    };
+
+    const handleFileUpload = async (e: any) => {
+        try {
+            setUploadingCarta(true);
+            setFormError(null);
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${registro.identificacion || 'doc'}_${Math.random()}.${fileExt}`;
+            const filePath = `${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('cartas_aval')
+                .upload(filePath, file);
+
+            if (uploadError) {
+                console.error("Upload error:", uploadError);
+                throw new Error("Error al subir el archivo, verifica que el bucket 'cartas_aval' existe y es público.");
+            }
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('cartas_aval')
+                .getPublicUrl(filePath);
+
+            setRegistro((prev: any) => ({ ...prev, carta_aval: publicUrl }));
+
+        } catch (error: any) {
+            setFormError(error.message || "Error al subir el archivo.");
+        } finally {
+            setUploadingCarta(false);
+        }
+    };
+
+    const handleComprobanteUpload = async (e: any) => {
+        try {
+            setUploadingComprobante(true);
+            setFormError(null);
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const fileExt = file.name.split('.').pop();
+            const fileName = `pago_${registro.identificacion || 'rut'}_${Math.random()}.${fileExt}`;
+            const filePath = `${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('comprobantes_pago')
+                .upload(filePath, file);
+
+            if (uploadError) {
+                console.error("Upload error:", uploadError);
+                throw new Error("Error al subir el comprobante, verifica que el bucket 'comprobantes_pago' existe y es público.");
+            }
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('comprobantes_pago')
+                .getPublicUrl(filePath);
+
+            setRegistro((prev: any) => ({ ...prev, comprobante_pago: publicUrl }));
+
+        } catch (error: any) {
+            setFormError(error.message || "Error al subir el comprobante de pago.");
+        } finally {
+            setUploadingComprobante(false);
+        }
     };
 
     const selectSede = (sede: string) => {
@@ -117,9 +178,20 @@ export default function RegistroForm() {
     const warning = getCupoWarning();
 
     const validateForm = () => {
-        // Validación de campos vacíos básicos
-        if (!registro.nombre || !registro.email || !registro.telefono || !registro.pais || !registro.ciudad || !registro.genero || !registro.organizacion || !registro.anos_cvc || !registro.etnia || !registro.rol || !registro.descripcion || !registro.aporte || !registro.comite || !registro.sede) {
-            return "Por favor, completa todos los campos del formulario. Todos son requeridos.";
+        if (!registro.nombre || !registro.apellido || !registro.identificacion || !registro.edad || !registro.email || !registro.telefono || !registro.pais || !registro.ciudad || !registro.genero || !registro.organizacion || !registro.actividad_principal || !registro.participacion_previa || !registro.anos_cvc || !registro.etnia || !registro.rol || !registro.descripcion || !registro.aporte || !registro.comite || !registro.sede || !registro.carta_aval || !registro.aporte_minga) {
+            return t('error_campos');
+        }
+
+        if (!registro.compromiso_convivencia) {
+            return t('error_compromiso');
+        }
+
+        const isPayingAporte = registro.aporte === t('opciones_aporte.0') || registro.aporte === t('opciones_aporte.1');
+        if (isPayingAporte && (!registro.comprobante_pago || !registro.fecha_transferencia)) {
+            return t('error_pago');
+        }
+        if (registro.aporte === t('opciones_aporte.1') && !registro.monto_superior) {
+            return t('error_monto');
         }
 
         // Validación de teléfono: solo números, mínimo 10 dígitos. Opcionalmente celular de Colombia si el país es Colombia
@@ -171,7 +243,7 @@ export default function RegistroForm() {
             setSuccess(true);
             setRegistro({
                 ...registro,
-                intereses: [], necesidades: [], notas: "", sede: "", nombre: "", email: "", telefono: "", pais: "", ciudad: "", genero: "", organizacion: "", anos_cvc: "", etnia: "", rol: "", descripcion: "", aporte: "", comite: ""
+                intereses: [], necesidades: [], notas: "", sede: "", nombre: "", apellido: "", identificacion: "", edad: "", email: "", telefono: "", pais: "", ciudad: "", genero: "", organizacion: "", actividad_principal: "", participacion_previa: "", anos_cvc: "", etnia: "", rol: "", descripcion: "", aporte: "", comite: "", carta_aval: "", comprobante_pago: "", fecha_transferencia: "", nombre_pagador: "", monto_superior: "", aporte_minga: "", compromiso_convivencia: false
             });
             setTimeout(() => setSuccess(false), 5000);
         } catch (err) {
@@ -204,11 +276,11 @@ export default function RegistroForm() {
 
             <div className="max-w-[1080px] mx-auto relative z-20">
                 <div className="text-center mb-[50px]">
-                    <div className="font-barlow-condensed font-[700] text-[15px] tracking-[4px] uppercase text-amarillo mb-[14px] flex justify-center items-center gap-[10px]">
-                        Inscripción
-                    </div>
+                    {/* <div className="font-barlow-condensed font-[700] text-[15px] tracking-[4px] uppercase text-amarillo mb-[14px] flex justify-center items-center gap-[10px]">
+                
+                    </div> */}
                     <h2 className="font-playfair text-[clamp(32px,4.5vw,56px)] font-[700] text-crema mb-3">
-                        Trae tu taburete<br />a la gran asamblea
+                        Inscripción<br />
                     </h2>
                     <p className="text-[18px] text-crema/45 max-w-[460px] mx-auto leading-[1.6]">
                         Regístrate, cuéntanos quién eres, tu proceso y qué necesitas para participar plenamente.
@@ -224,16 +296,26 @@ export default function RegistroForm() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[18px] mb-[22px]">
                         <div className="flex flex-col gap-[7px]">
-                            <label htmlFor="nombre" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Nombre completo *</label>
-                            <input id="nombre" type="text" name="nombre" value={registro.nombre} onChange={handleChange} required placeholder="Nombre y apellido" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label htmlFor="nombre" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Nombre *</label>
+                            <input id="nombre" type="text" name="nombre" value={registro.nombre} onChange={handleChange} required placeholder="Tu nombre" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label htmlFor="email" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Correo electrónico *</label>
-                            <input id="email" type="email" name="email" value={registro.email} onChange={handleChange} required placeholder="correo@ejemplo.com" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label htmlFor="apellido" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Apellido *</label>
+                            <input id="apellido" type="text" name="apellido" value={registro.apellido} onChange={handleChange} required placeholder="Tu apellido" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                         <div className="flex flex-col gap-[7px]">
-                            <label htmlFor="telefono" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Teléfono / WhatsApp *</label>
-                            <input id="telefono" type="tel" name="telefono" value={registro.telefono} onChange={handleChange} required placeholder="+57 300 000 0000" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                            <label htmlFor="identificacion" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Cédula / DNI / Pasaporte *</label>
+                            <input id="identificacion" type="text" name="identificacion" value={registro.identificacion} onChange={handleChange} required placeholder="Número de documento" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                        </div>
+                        <div className="flex flex-col gap-[7px]">
+                            <label htmlFor="edad" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Edad *</label>
+                            <input id="edad" type="number" name="edad" value={registro.edad} onChange={handleChange} required placeholder="Tu edad" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                        </div>
+                        <div className="flex flex-col gap-[7px]">
+                            <label htmlFor="etnia" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Pertenencia étnica *</label>
+                            <select id="etnia" name="etnia" value={registro.etnia} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                                <option value="">Selecciona</option><option>Ninguna / No aplica</option><option>Pueblo originario / indígena</option><option>Afrodescendiente</option><option>Raizal</option><option>Palenquero/a</option><option>Rom / Gitano</option><option>Mestizo/a</option><option>Otro</option>
+                            </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
                             <label htmlFor="pais" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">País de origen *</label>
@@ -251,6 +333,10 @@ export default function RegistroForm() {
                             </select>
                         </div>
                         <div className="flex flex-col gap-[7px]">
+                            <label htmlFor="telefono" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Teléfono / WhatsApp *</label>
+                            <input id="telefono" type="tel" name="telefono" value={registro.telefono} onChange={handleChange} required placeholder="+57 300 000 0000" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                        </div>
+                        <div className="flex flex-col gap-[7px]">
                             <label htmlFor="ciudad" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Ciudad / Región *</label>
                             <input id="ciudad" type="text" name="ciudad" value={registro.ciudad} onChange={handleChange} required placeholder="¿De dónde vienes?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
@@ -259,6 +345,10 @@ export default function RegistroForm() {
                             <select id="genero" name="genero" value={registro.genero} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">Selecciona</option><option>Prefiero no decir</option><option>Mujer</option><option>Hombre</option><option>No binario/a</option><option>Otro</option>
                             </select>
+                        </div>
+                        <div className="flex flex-col gap-[7px]">
+                            <label htmlFor="email" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Correo electrónico *</label>
+                            <input id="email" type="email" name="email" value={registro.email} onChange={handleChange} required placeholder="correo@ejemplo.com" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
                         </div>
                     </div>
 
@@ -280,11 +370,15 @@ export default function RegistroForm() {
                                 <option value="">Selecciona</option><option>Menos de 1 año</option><option>1 - 3 años</option><option>4 - 7 años</option><option>8 - 12 años</option><option>13 - 20 años</option><option>Más de 20 años</option>
                             </select>
                         </div>
-                        <div className="flex flex-col gap-[7px]">
-                            <label htmlFor="etnia" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Pertenencia étnica *</label>
-                            <select id="etnia" name="etnia" value={registro.etnia} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
-                                <option value="">Selecciona</option><option>Ninguna / No aplica</option><option>Pueblo originario / indígena</option><option>Afrodescendiente</option><option>Raizal</option><option>Palenquero/a</option><option>Rom / Gitano</option><option>Mestizo/a</option><option>Otro</option>
-                            </select>
+                        <div className="flex flex-col gap-[7px] md:col-span-2">
+                            <label htmlFor="actividad_principal" className="font-barlow-condensed text-[16px] tracking-[2px] uppercase text-crema/80">¿Cuál es la actividad principal de tu organización? *</label>
+                            <p className="text-[16px] text-crema/40 leading-[1.5] mb-2">(Arte, educación popular, agroecología, comunicación comunitaria, seguridad alimentaria, etc.)</p>
+                            <input id="actividad_principal" type="text" name="actividad_principal" value={registro.actividad_principal} onChange={handleChange} required placeholder="Actividad principal" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30" />
+                        </div>
+                        <div className="flex flex-col gap-[7px] md:col-span-2">
+                            <label htmlFor="participacion_previa" className="font-barlow-condensed text-[16px] tracking-[2px] uppercase text-crema/80">¿Has participado en congresos latinoamericanos previos? *</label>
+                            <p className="text-[16px] text-crema/40 leading-[1.5] mb-2">(Especifique cuáles)</p>
+                            <textarea id="participacion_previa" name="participacion_previa" value={registro.participacion_previa} onChange={handleChange} required placeholder="Si, en..." className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px] resize-y"></textarea>
                         </div>
                         <div className="flex flex-col gap-[7px]">
                             <label htmlFor="rol" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Rol en el congreso *</label>
@@ -296,6 +390,32 @@ export default function RegistroForm() {
                             <label htmlFor="descripcion" className="font-barlow-condensed text-[16px] tracking-[2px] uppercase text-crema/80">Descripción y justificación de tu propuesta o experiencia *</label>
                             <p className="text-[16px] text-crema/40 leading-[1.5] mb-2">Para que tu participación sea más significativa, cuéntanos en 100-300 palabras: ¿De qué trata tu proceso u organización? ¿En qué contexto o territorio trabajan? ¿Cuáles son sus principales metodologías o impactos? Si eres ponente o artista, describe brevemente la experiencia o acto que te gustaría compartir en el Congreso.</p>
                             <textarea id="descripcion" name="descripcion" value={registro.descripcion} onChange={handleChange} required placeholder="Escribe aquí el resumen de tu proceso y/o propuesta..." className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[140px] resize-y"></textarea>
+                        </div>
+
+                        <div className="flex flex-col gap-[7px] md:col-span-2 mt-2 p-4 md:p-6 bg-white/5 border border-white/10 rounded-[4px]">
+                            <label htmlFor="carta_aval" className="font-barlow-condensed text-[16px] tracking-[2px] uppercase text-crema/80">Carga aquí la carta aval *</label>
+                            <p className="text-[16px] text-crema/40 leading-[1.5] mb-3">Carta aval que tu país envió a Colombia donde está referido tu nombre como delegado.</p>
+
+                            <div className="flex items-center gap-4 flex-wrap">
+                                <label className={`cursor-pointer bg-amarillo/10 border border-amarillo/30 text-amarillo px-4 py-3 font-barlow text-[16px] transition-all hover:bg-amarillo/20 flex items-center gap-2 ${uploadingCarta ? 'opacity-50 pointer-events-none' : ''}`}>
+                                    <span className="font-[600]">{uploadingCarta ? 'Subiendo...' : 'Seleccionar archivo / Subir imagen o PDF'}</span>
+                                    <input
+                                        type="file"
+                                        id="carta_aval"
+                                        accept="image/*,.pdf"
+                                        onChange={handleFileUpload}
+                                        className="hidden"
+                                    />
+                                </label>
+                                {registro.carta_aval && (
+                                    <span className="text-[#5dd68c] bg-verde/10 px-3 py-1.5 border border-verde/20 text-[15px] flex items-center gap-2">
+                                        ✓ Archivo cargado correctamente
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Input oculto para validación nativa del form si se requiere */}
+                            <input type="text" className="h-0 w-0 opacity-0 absolute" value={registro.carta_aval} onChange={() => { }} required tabIndex={-1} />
                         </div>
                     </div>
 
@@ -310,9 +430,67 @@ export default function RegistroForm() {
                         <div className="flex flex-col gap-[7px]">
                             <label htmlFor="aporte" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">¿Vas a pagar aporte? *</label>
                             <select id="aporte" name="aporte" value={registro.aporte} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
-                                <option value="">Selecciona</option><option>Sí, puedo pagar el aporte completo</option><option>Sí, puedo pagar un aporte parcial</option><option>Necesito apoyo / beca</option><option>Mi organización cubre los costos</option><option>Gobierno / institución cubre costos</option>
+                                <option value="">Selecciona</option><option>135 dólares</option><option>Puedo hacer un aporte superior</option><option>Convenio de aporte (aplica para Cuba, etc, etc)</option><option>Pertenezco al equipo impulsor Pensar Colombia</option>
                             </select>
                         </div>
+                        <div className="flex flex-col gap-[7px] md:col-span-2">
+                            <div className="p-4 bg-amarillo/10 border border-amarillo/20 rounded-[4px] mt-1 mb-2">
+                                <h4 className="font-barlow-condensed font-[700] text-[16px] tracking-[1px] text-amarillo mb-1">INSTRUCCIONES PARA EL APORTE:</h4>
+                                <p className="text-[15px] text-crema/80 leading-[1.6]">
+                                    El valor único de la cuota solidaria es de quinientos mil pesos colombianos ($500.000 COP) / 135 dólares.
+                                    <span className="font-bold text-amarillo block mt-1">El valor del dólar en Colombia es de $3,766.30 pesos colombianos por dólar (referencia aproximada).</span>
+                                    Sugerimos que sea consultada la cotización de este ya que puede variar ligeramente cada día.
+                                </p>
+                            </div>
+                        </div>
+
+                        {(registro.aporte === "135 dólares" || registro.aporte === "Puedo hacer un aporte superior") && (
+                            <div className="flex flex-col gap-[15px] md:col-span-2 mt-2 p-5 bg-white/5 border border-white/10 rounded-[4px]">
+                                <div className="flex justify-between items-start flex-wrap gap-4">
+                                    <div>
+                                        <h4 className="font-barlow-condensed font-[700] text-[18px] tracking-[1px] text-crema">Reporte de pago</h4>
+                                        <p className="text-[15px] text-crema/60 leading-[1.5]">Una vez realizada la transferencia, es obligatorio adjuntar el soporte en este formulario para confirmar tu cupo.</p>
+                                    </div>
+
+                                    {registro.aporte === "Puedo hacer un aporte superior" && (
+                                        <div className="flex flex-col gap-[7px] w-full sm:w-auto">
+                                            <label htmlFor="monto_superior" className="font-barlow-condensed text-[14px] tracking-[2px] uppercase text-amarillo">Monto del aporte superior *</label>
+                                            <input id="monto_superior" type="text" name="monto_superior" value={registro.monto_superior} onChange={handleChange} placeholder="Ej. $600.000 COP / 150 USD" required className="bg-amarillo/10 border border-amarillo/30 text-crema px-4 py-2 font-barlow text-[16px] outline-none transition-all focus:border-amarillo focus:bg-amarillo/20" />
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="flex flex-col gap-[7px] mt-2 border-t border-white/5 pt-4">
+                                    <label className="font-barlow-condensed text-[14px] tracking-[2px] uppercase text-crema/80">1. Carga de Comprobante *</label>
+                                    <div className="flex items-center gap-4 flex-wrap">
+                                        <label className={`cursor-pointer bg-amarillo/10 border border-amarillo/30 text-amarillo px-4 py-3 font-barlow text-[16px] transition-all hover:bg-amarillo/20 flex items-center gap-2 ${uploadingComprobante ? 'opacity-50 pointer-events-none' : ''}`}>
+                                            <span className="font-[600]">{uploadingComprobante ? 'Subiendo...' : 'Seleccionar archivo / Subir imagen o PDF'}</span>
+                                            <input type="file" accept="image/*,.pdf" onChange={handleComprobanteUpload} className="hidden" />
+                                        </label>
+                                        {registro.comprobante_pago && (
+                                            <span className="text-[#5dd68c] bg-verde/10 px-3 py-1.5 border border-verde/20 text-[15px] flex items-center gap-2">
+                                                ✓ Cargado correctamente
+                                            </span>
+                                        )}
+                                    </div>
+                                    <input type="text" className="h-0 w-0 opacity-0 absolute" value={registro.comprobante_pago} onChange={() => { }} required={registro.aporte === "135 dólares" || registro.aporte === "Puedo hacer un aporte superior"} tabIndex={-1} />
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-2">
+                                    <div className="flex flex-col gap-[7px]">
+                                        <label htmlFor="fecha_transferencia" className="font-barlow-condensed text-[14px] tracking-[2px] uppercase text-crema/80">2. Fecha de la transferencia *</label>
+                                        <input id="fecha_transferencia" type="date" name="fecha_transferencia" value={registro.fecha_transferencia} onChange={handleChange} required={registro.aporte === "135 dólares" || registro.aporte === "Puedo hacer un aporte superior"} className="bg-white/5 border border-white/10 text-crema px-4 py-[11px] font-barlow text-[16px] outline-none transition-all focus:border-amarillo focus:bg-amarillo/5 [color-scheme:dark]" />
+                                    </div>
+
+                                    <div className="flex flex-col gap-[7px]">
+                                        <label htmlFor="nombre_pagador" className="font-barlow-condensed text-[14px] tracking-[2px] uppercase text-crema/80">3. Nombre de quien realiza el pago</label>
+                                        <p className="text-[13px] text-crema/40 -mt-2 mb-1">(Si es distinto al inscrito)</p>
+                                        <input id="nombre_pagador" type="text" name="nombre_pagador" value={registro.nombre_pagador} onChange={handleChange} placeholder="Nombre del titular de la cuenta" className="bg-white/5 border border-white/10 text-crema px-4 py-[10px] font-barlow text-[16px] outline-none transition-all focus:border-amarillo focus:bg-amarillo/5" />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         <div className="flex flex-col gap-[7px]">
                             <label htmlFor="comite" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">¿Perteneces a algún comité? *</label>
                             <select id="comite" name="comite" value={registro.comite} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
@@ -329,9 +507,9 @@ export default function RegistroForm() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3.5">
-                        {['Pasto', 'Cali', 'Medellín', 'Todo el recorrido'].map((sede) => {
+                        {['Medellín', 'Cali', 'Pasto', 'Todo el recorrido'].map((sede) => {
                             const isActive = registro.sede === sede;
-                            const sColor = sede === 'Pasto' ? '#E8711A' : sede === 'Cali' ? '#1A7A3C' : sede === 'Medellín' ? '#F5C518' : '#D42B2B';
+                            const sColor = sede === 'Medellín' ? '#E8711A' : sede === 'Cali' ? '#1A7A3C' : sede === 'Pasto' ? '#F5C518' : '#D42B2B';
                             return (
                                 <div key={sede} onClick={() => selectSede(sede)}
                                     className={`flex items-start gap-[10px] p-3.5 border border-white/5 cursor-pointer transition-all duration-200 ${isActive ? 'bg-white/10' : 'bg-white/5'}`} style={{ borderColor: isActive ? sColor : '' }}>
@@ -341,7 +519,7 @@ export default function RegistroForm() {
                                     <div className="flex flex-col flex-1">
                                         <span className="font-barlow-condensed font-[700] text-[18px] uppercase tracking-[1px]" style={{ color: sColor }}>{sede}</span>
                                         <span className="text-[15px] opacity-50 mt-0.5">
-                                            {sede === 'Pasto' ? '17–19 Abr · Nariño' : sede === 'Cali' ? '20–22 Abr · Valle del Cauca' : sede === 'Medellín' ? '23–26 Abr · Antioquia' : 'Pasto → Cali → Medellín'}
+                                            {sede === 'Medellín' ? '17–19 Abr · Antioquia' : sede === 'Cali' ? '20–22 Abr Cali · Valle del Cauca' : sede === 'Pasto' ? '23–26 Abr · Nariño' : 'Pasto → Cali → Medellín'}
                                         </span>
                                         {registro.pais && sede !== 'Todo el recorrido' && (
                                             <span className={`text-[15px] mt-1 px-2 py-1 rounded-[2px] w-fit ${getCountrySedeAvailability(sede) > 0 ? 'bg-verde/15 text-[#5dd68c]' : 'bg-rojo/15 text-[#ff9090]'}`}>
@@ -354,6 +532,12 @@ export default function RegistroForm() {
                         })}
                     </div>
 
+                    <div className="flex flex-col gap-[7px] mt-5">
+                        <label htmlFor="aporte_minga" className="font-barlow-condensed font-[700] text-[18px] tracking-[2px] uppercase text-amarillo">Aporte a la Minga: Describe brevemente *</label>
+                        <p className="text-[16px] text-crema/60 leading-[1.5] -mt-1 mb-2">¿Cuál es tu interés principal al participar en este 7° Congreso y qué experiencia de tu territorio te gustaría compartir con el continente?</p>
+                        <textarea id="aporte_minga" name="aporte_minga" value={registro.aporte_minga} onChange={handleChange} required placeholder="Mi interés es..." className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[110px] resize-y"></textarea>
+                    </div>
+
                     {warning && (
                         <div className={`p-3 px-4 text-[16px] leading-[1.5] mt-3 ${warning.isWarn ? 'bg-rojo/10 border border-rojo/30 text-[#ff9090]' : 'bg-verde/10 border border-verde/25 text-[#5dd68c]'}`}>
                             {warning.text}
@@ -363,11 +547,11 @@ export default function RegistroForm() {
                     {/* Intereses */}
                     <div className="h-[1px] bg-white/5 my-7"></div>
                     <div className="font-barlow-condensed font-[700] text-[20px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
-                        ✧ Círculos de la Palabra – tus intereses
+                        ✧ {t('section_circulos')}
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 mt-3.5">
-                        {OPCIONES_INTERESES.map((int) => {
+                        {(t.raw('opciones_intereses') as string[]).map((int: string) => {
                             const active = registro.intereses.includes(int);
                             return (
                                 <div key={int} onClick={() => toggleArrayItem('intereses', int)} className={`flex items-start gap-2.5 p-3 border border-white/5 cursor-pointer transition-all duration-200 ${active ? 'bg-amarillo/10 border-amarillo' : 'bg-white/5 hover:border-amarillo/30 hover:bg-amarillo/5'}`}>
@@ -383,11 +567,11 @@ export default function RegistroForm() {
                     {/* Necesidades */}
                     <div className="h-[1px] bg-white/5 my-7"></div>
                     <div className="font-barlow-condensed font-[700] text-[20px] tracking-[4px] uppercase text-amarillo mb-6 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
-                        ✧ Necesidades logísticas
+                        ✧ {t('section_necesidades')}
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3.5">
-                        {OPCIONES_NECESIDADES.map((nec) => {
+                        {(t.raw('opciones_necesidades') as string[]).map((nec: string) => {
                             const active = registro.necesidades.includes(nec);
                             return (
                                 <div key={nec} onClick={() => toggleArrayItem('necesidades', nec)} className={`flex items-center gap-2.5 py-2.5 px-3.5 border border-white/5 cursor-pointer transition-all duration-200 ${active ? 'bg-naranja/10 border-naranja' : 'bg-white/5 hover:border-naranja/30 hover:bg-naranja/5'}`}>
@@ -400,11 +584,39 @@ export default function RegistroForm() {
                         })}
                     </div>
 
+                    <div className="flex flex-col gap-[7px]">
+                        <label htmlFor="notas" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">{t('notas')}</label>
+                        <textarea id="notas" name="notas" value={registro.notas} onChange={handleChange} placeholder={t('notas_placeholder')} className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px]"></textarea>
+                    </div>
+
                     <div className="h-[1px] bg-white/5 my-7"></div>
 
-                    <div className="flex flex-col gap-[7px]">
-                        <label htmlFor="notas" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">Comentarios adicionales</label>
-                        <textarea id="notas" name="notas" value={registro.notas} onChange={handleChange} placeholder="¿Algo más que quieras contarnos?" className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px]"></textarea>
+                    {/* COMPROMISO DE CONVIVENCIA */}
+                    <div className="font-barlow-condensed font-[700] text-[20px] tracking-[4px] uppercase text-amarillo mb-4 pb-2.5 border-b border-amarillo/20 flex items-center gap-2">
+                        {t('section_compromiso')}
+                    </div>
+
+                    <div className="bg-white/5 border border-white/10 p-5 rounded-[4px] mb-2">
+                        <p className="text-[16px] text-crema/80 leading-[1.6] mb-4">
+                            ¿Te comprometes a mantener un espíritu de diálogo, respeto y cuidado mutuo durante toda la jornada del Congreso bajo el lema "Todas las Voces"?
+                        </p>
+
+                        <label className="flex items-start gap-3 cursor-pointer group w-fit">
+                            <div className={`mt-0.5 w-[22px] h-[22px] border-2 rounded-[3px] flex items-center justify-center transition-all duration-200 shrink-0 ${registro.compromiso_convivencia ? 'bg-amarillo border-amarillo text-oscuro' : 'border-white/30 group-hover:border-amarillo/50'}`}>
+                                {registro.compromiso_convivencia && (
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                )}
+                            </div>
+                            <span className={`text-[17px] font-barlow transition-colors duration-200 ${registro.compromiso_convivencia ? 'text-amarillo font-bold' : 'text-crema/70 group-hover:text-crema'}`}>Sí, me comprometo. *</span>
+                            <input
+                                type="checkbox"
+                                name="compromiso_convivencia"
+                                checked={registro.compromiso_convivencia}
+                                onChange={handleChange}
+                                className="hidden"
+                                required
+                            />
+                        </label>
                     </div>
 
                     {formError && (

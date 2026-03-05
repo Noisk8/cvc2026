@@ -4,13 +4,23 @@
 CREATE TABLE public.registros (
   id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   created_at  TIMESTAMPTZ DEFAULT now(),
-  nombre      TEXT NOT NULL,
-  email       TEXT NOT NULL,
-  telefono    TEXT,
-  pais        TEXT NOT NULL,
+  nombre         TEXT NOT NULL,
+  apellido       TEXT NOT NULL,
+  identificacion TEXT NOT NULL,
+  edad           TEXT NOT NULL,
+  email          TEXT NOT NULL,
   ciudad      TEXT,
   genero      TEXT,
   organizacion TEXT NOT NULL,
+  actividad_principal TEXT NOT NULL,
+  participacion_previa TEXT NOT NULL,
+  carta_aval  TEXT NOT NULL,
+  comprobante_pago TEXT,
+  fecha_transferencia TEXT,
+  nombre_pagador TEXT,
+  monto_superior TEXT,
+  aporte_minga TEXT NOT NULL,
+  compromiso_convivencia BOOLEAN NOT NULL DEFAULT false,
   anos_cvc    TEXT NOT NULL,
   etnia       TEXT,
   rol         TEXT NOT NULL,
@@ -37,6 +47,9 @@ CREATE POLICY "Auth select" ON public.registros FOR SELECT TO authenticated USIN
 
 -- Sólo los administradores pueden hacer update
 CREATE POLICY "Auth update" ON public.registros FOR UPDATE TO authenticated USING (auth.uid() IS NOT NULL);
+
+-- Sólo los administradores pueden hacer delete
+CREATE POLICY "Auth delete" ON public.registros FOR DELETE TO authenticated USING (auth.uid() IS NOT NULL);
 
 
 -- 2. Tabla de Cupos por País

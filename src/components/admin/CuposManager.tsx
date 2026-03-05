@@ -5,9 +5,9 @@ import { createClient } from "@/lib/supabase/client";
 
 export default function CuposManager({ cuposConfig, registros, refreshData }: { cuposConfig: any[]; registros: any[]; refreshData: () => void }) {
     const [nuevoPais, setNuevoPais] = useState("");
-    const [nPasto, setNPasto] = useState(5);
-    const [nCali, setNCali] = useState(5);
-    const [nMed, setNMed] = useState(10);
+    const [nPasto, setNPasto] = useState<number | string>(5);
+    const [nCali, setNCali] = useState<number | string>(5);
+    const [nMed, setNMed] = useState<number | string>(10);
     const supabase = createClient();
 
     const handleAddPais = async () => {
@@ -15,7 +15,7 @@ export default function CuposManager({ cuposConfig, registros, refreshData }: { 
         if (cuposConfig.find(c => c.pais === nuevoPais)) return alert(nuevoPais + " ya está en la lista.");
 
         await supabase.from("cupos_pais").insert([{
-            pais: nuevoPais, pasto: nPasto, cali: nCali, medellin: nMed
+            pais: nuevoPais, pasto: parseInt(nPasto as string) || 0, cali: parseInt(nCali as string) || 0, medellin: parseInt(nMed as string) || 0
         }]);
         setNuevoPais("");
         refreshData();
@@ -54,15 +54,15 @@ export default function CuposManager({ cuposConfig, registros, refreshData }: { 
                     </div>
                     <div className="flex flex-col gap-1.5">
                         <span className="font-barlow-condensed text-[10px] tracking-[2px] uppercase text-crema/40">Cupo Pasto</span>
-                        <input type="number" min="0" value={nPasto} onChange={(e) => setNPasto(parseInt(e.target.value))} className="bg-white/5 border border-white/15 text-crema px-2.5 py-2.5 font-barlow text-[13px] text-center outline-none w-[80px] focus:border-amarillo" />
+                        <input type="number" min="0" value={nPasto} onChange={(e) => setNPasto(e.target.value)} className="bg-white/5 border border-white/15 text-crema px-2.5 py-2.5 font-barlow text-[13px] text-center outline-none w-[80px] focus:border-amarillo" />
                     </div>
                     <div className="flex flex-col gap-1.5">
                         <span className="font-barlow-condensed text-[10px] tracking-[2px] uppercase text-crema/40">Cupo Cali</span>
-                        <input type="number" min="0" value={nCali} onChange={(e) => setNCali(parseInt(e.target.value))} className="bg-white/5 border border-white/15 text-crema px-2.5 py-2.5 font-barlow text-[13px] text-center outline-none w-[80px] focus:border-amarillo" />
+                        <input type="number" min="0" value={nCali} onChange={(e) => setNCali(e.target.value)} className="bg-white/5 border border-white/15 text-crema px-2.5 py-2.5 font-barlow text-[13px] text-center outline-none w-[80px] focus:border-amarillo" />
                     </div>
                     <div className="flex flex-col gap-1.5">
                         <span className="font-barlow-condensed text-[10px] tracking-[2px] uppercase text-crema/40">Cupo Medellín</span>
-                        <input type="number" min="0" value={nMed} onChange={(e) => setNMed(parseInt(e.target.value))} className="bg-white/5 border border-white/15 text-crema px-2.5 py-2.5 font-barlow text-[13px] text-center outline-none w-[80px] focus:border-amarillo" />
+                        <input type="number" min="0" value={nMed} onChange={(e) => setNMed(e.target.value)} className="bg-white/5 border border-white/15 text-crema px-2.5 py-2.5 font-barlow text-[13px] text-center outline-none w-[80px] focus:border-amarillo" />
                     </div>
                     <button onClick={handleAddPais} className="font-barlow-condensed text-[12px] font-[700] tracking-[2px] uppercase bg-amarillo border-none text-oscuro px-5 py-[11px] cursor-pointer transition-colors hover:bg-verde hover:text-white">+ Agregar</button>
                 </div>

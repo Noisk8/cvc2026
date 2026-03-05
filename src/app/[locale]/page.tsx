@@ -6,16 +6,16 @@ import RegistroForm from "@/components/landing/RegistroForm";
 import Logos from "@/components/landing/Logos";
 
 export default function Home() {
-  return (
-    <>
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <RegistroForm />
-        <Logos />
-      </main>
-      <Footer />
-    </>
-  );
+    return (
+        <>
+            <Navbar />
+            <main>
+                <Hero />
+                <About />
+                <RegistroForm />
+                <Logos />
+            </main>
+            <Footer />
+        </>
+    );
 }
