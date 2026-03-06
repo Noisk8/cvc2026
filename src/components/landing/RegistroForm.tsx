@@ -66,6 +66,11 @@ export default function RegistroForm() {
             const file = e.target.files[0];
             if (!file) return;
 
+            if (file.size > 15 * 1024 * 1024) {
+                setFormError(t('error_size') || "El archivo excede el tamaño máximo permitido de 15MB.");
+                return;
+            }
+
             const fileExt = file.name.split('.').pop();
             const fileName = `${registro.identificacion || 'doc'}_${Math.random()}.${fileExt}`;
             const filePath = `${fileName}`;
@@ -98,6 +103,11 @@ export default function RegistroForm() {
             setFormError(null);
             const file = e.target.files[0];
             if (!file) return;
+
+            if (file.size > 15 * 1024 * 1024) {
+                setFormError(t('error_size') || "El archivo excede el tamaño máximo permitido de 15MB.");
+                return;
+            }
 
             const fileExt = file.name.split('.').pop();
             const fileName = `pago_${registro.identificacion || 'rut'}_${Math.random()}.${fileExt}`;
@@ -259,7 +269,11 @@ export default function RegistroForm() {
 
             {/* Background Textures & Mesh */}
             <div className="absolute inset-0 opacity-[.35] bg-[url('/assets/paper-texture.png')] mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cream-paper.png')" }}></div>
-            <div className="absolute inset-0 opacity-[.06] pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(0deg, var(--color-crema) 0, var(--color-crema) 1px, transparent 0, transparent 40px), repeating-linear-gradient(90deg, var(--color-crema) 0, var(--color-crema) 1px, transparent 0, transparent 40px)" }}></div>
+            <div className="absolute inset-0 opacity-[.25] pointer-events-none" style={{
+                backgroundImage: "repeating-linear-gradient(0deg, var(--color-crema) 0, var(--color-crema) 1px, transparent 0, transparent 40px), repeating-linear-gradient(90deg, var(--color-crema) 0, var(--color-crema) 1px, transparent 0, transparent 40px)",
+                maskImage: "linear-gradient(135deg, transparent 0%, black 15%, transparent 35%, black 50%, transparent 65%, black 85%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(135deg, transparent 0%, black 15%, transparent 35%, black 50%, transparent 65%, black 85%, transparent 100%)"
+            }}></div>
 
             {/* Graphics */}
             {/* <div className="absolute top-[10%] right-[3%] w-[280px] md:w-[320px] animate-[float_10s_ease-in-out_infinite] hidden lg:block z-10 opacity-90 pointer-events-none">
@@ -398,7 +412,7 @@ export default function RegistroForm() {
 
                             <div className="flex items-center gap-4 flex-wrap">
                                 <label className={`cursor-pointer bg-amarillo/10 border border-amarillo/30 text-amarillo px-4 py-3 font-barlow text-[16px] transition-all hover:bg-amarillo/20 flex items-center gap-2 ${uploadingCarta ? 'opacity-50 pointer-events-none' : ''}`}>
-                                    <span className="font-[600]">{uploadingCarta ? 'Subiendo...' : 'Seleccionar archivo / Subir imagen o PDF'}</span>
+                                    <span className="font-[600]">{uploadingCarta ? 'Subiendo...' : 'Seleccionar archivo / Subir imagen o PDF (Máx. 15MB)'}</span>
                                     <input
                                         type="file"
                                         id="carta_aval"
@@ -464,7 +478,7 @@ export default function RegistroForm() {
                                     <label className="font-barlow-condensed text-[14px] tracking-[2px] uppercase text-crema/80">1. Carga de Comprobante *</label>
                                     <div className="flex items-center gap-4 flex-wrap">
                                         <label className={`cursor-pointer bg-amarillo/10 border border-amarillo/30 text-amarillo px-4 py-3 font-barlow text-[16px] transition-all hover:bg-amarillo/20 flex items-center gap-2 ${uploadingComprobante ? 'opacity-50 pointer-events-none' : ''}`}>
-                                            <span className="font-[600]">{uploadingComprobante ? 'Subiendo...' : 'Seleccionar archivo / Subir imagen o PDF'}</span>
+                                            <span className="font-[600]">{uploadingComprobante ? 'Subiendo...' : 'Seleccionar archivo / Subir imagen o PDF (Máx. 15MB)'}</span>
                                             <input type="file" accept="image/*,.pdf" onChange={handleComprobanteUpload} className="hidden" />
                                         </label>
                                         {registro.comprobante_pago && (
@@ -507,7 +521,7 @@ export default function RegistroForm() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3.5">
-                        {['Medellín', 'Cali', 'Pasto', 'Todo el recorrido'].map((sede) => {
+                        {['Pasto', 'Cali', 'Medellín', 'Todo el recorrido'].map((sede) => {
                             const isActive = registro.sede === sede;
                             const sColor = sede === 'Medellín' ? '#E8711A' : sede === 'Cali' ? '#1A7A3C' : sede === 'Pasto' ? '#F5C518' : '#D42B2B';
                             return (
@@ -519,7 +533,7 @@ export default function RegistroForm() {
                                     <div className="flex flex-col flex-1">
                                         <span className="font-barlow-condensed font-[700] text-[18px] uppercase tracking-[1px]" style={{ color: sColor }}>{sede}</span>
                                         <span className="text-[15px] opacity-50 mt-0.5">
-                                            {sede === 'Medellín' ? '17–19 Abr · Antioquia' : sede === 'Cali' ? '20–22 Abr Cali · Valle del Cauca' : sede === 'Pasto' ? '23–26 Abr · Nariño' : 'Pasto → Cali → Medellín'}
+                                            {sede === 'Medellín' ? '23–26 Abril · Antioquia' : sede === 'Cali' ? '20–22 Abril · Valle del Cauca' : sede === 'Pasto' ? '17–19 Abril · Nariño' : 'Pasto → Cali → Medellín'}
                                         </span>
                                         {registro.pais && sede !== 'Todo el recorrido' && (
                                             <span className={`text-[15px] mt-1 px-2 py-1 rounded-[2px] w-fit ${getCountrySedeAvailability(sede) > 0 ? 'bg-verde/15 text-[#5dd68c]' : 'bg-rojo/15 text-[#ff9090]'}`}>

@@ -29,7 +29,11 @@ export default function Login() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#06100a] to-[#0e1a0c] relative overflow-hidden">
-            <div className="absolute inset-0 opacity-[.04] pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(0deg, var(--color-verde) 0, var(--color-verde) 1px, transparent 0, transparent 40px), repeating-linear-gradient(90deg, var(--color-verde) 0, var(--color-verde) 1px, transparent 0, transparent 40px)" }}></div>
+            <div className="absolute inset-0 opacity-[.15] pointer-events-none" style={{
+                backgroundImage: "repeating-linear-gradient(0deg, var(--color-verde) 0, var(--color-verde) 1px, transparent 0, transparent 40px), repeating-linear-gradient(90deg, var(--color-verde) 0, var(--color-verde) 1px, transparent 0, transparent 40px)",
+                maskImage: "linear-gradient(135deg, transparent 0%, black 15%, transparent 35%, black 50%, transparent 65%, black 85%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(135deg, transparent 0%, black 15%, transparent 35%, black 50%, transparent 65%, black 85%, transparent 100%)"
+            }}></div>
 
             <div className="bg-white/5 border border-white/10 p-[50px] px-11 w-full max-w-[420px] text-center relative z-10 backdrop-blur-[10px]">
                 <div className="text-[40px] mb-5">🔐</div>

@@ -84,26 +84,26 @@ export default function Hero() {
                 </div>
 
                 <div className="flex justify-center gap-3 flex-wrap mb-14 animate-[fadeUp_.7s_ease_.6s_both]">
-                    <div className="bg-[#f4efe8] border-2 border-[#E8711A] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#E8711A] rounded-lg">
-                        <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#E8711A]">
-                            Medellín
+                    <div className="bg-[#f4efe8] border-2 border-[#D42B2B] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#D42B2B] rounded-lg">
+                        <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#D42B2B]">
+                            Pasto
                         </div>
                         <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">17–19 Abril</div>
-                        <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#E8711A]/20 py-1 rounded">{cupos.pasto}</div>
+                        <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#D42B2B]/20 py-1 rounded">{cupos.pasto}</div>
                     </div>
                     <div className="bg-[#f4efe8] border-2 border-[#1A7A3C] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#1A7A3C] rounded-lg">
                         <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#1A7A3C]">
                             Cali
                         </div>
-                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">20–21 Abril</div>
+                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">20–22 Abril</div>
                         <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#1A7A3C]/20 py-1 rounded">{cupos.cali}</div>
                     </div>
-                    <div className="bg-[#f4efe8] border-2 border-[#D42B2B] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#D42B2B] rounded-lg">
-                        <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#D42B2B]">
-                            Pasto
+                    <div className="bg-[#f4efe8] border-2 border-[#E8711A] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#E8711A] rounded-lg">
+                        <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#E8711A]">
+                            Medellín
                         </div>
-                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">22–26 Abril</div>
-                        <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#D42B2B]/20 py-1 rounded">{cupos.medellin}</div>
+                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">23–26 Abril</div>
+                        <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#E8711A]/20 py-1 rounded">{cupos.medellin}</div>
                     </div>
                 </div>
 
