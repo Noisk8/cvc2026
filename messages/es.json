@@ -1,10 +1,11 @@
 {
     "hero": {
-        "badge": "Colombia · Abril 2026 · 23+ Países",
-        "cta": "¡Inscríbete a la asamblea!",
-        "cupos": "{count} cupos",
-        "disponibles": "+{count} disponibles",
-        "agotado": "Agotado"
+        "badge": "Agua, Tierra y Cuidadores de Vida",
+        "cta": "¡Pre-Inscripción a la asamblea!",
+        "cupos": "Próximamente",
+        "disponibles": "Próximamente",
+        "agotado": "Próximamente",
+        "preinscribete_ya": "¡Pre-inscríbete ya!"
     },
     "about": {
         "eyebrow": "Sobre el Congreso",
@@ -17,13 +18,13 @@
         "stat_dias": "Días de encuentro"
     },
     "form": {
-        "title": "Inscripción",
+        "title": "Pre-Inscripción",
         "subtitle": "Regístrate, cuéntanos quién eres, tu proceso y qué necesitas para participar plenamente.",
         "section_personal": "Datos personales",
         "section_organizacion": "Tu organización y proceso CVC",
         "section_logistica": "Logística y aporte",
         "section_sede": "Sede(s) a las que asistes",
-        "section_circulos": "Círculos de la Palabra – tus intereses",
+        "section_circulos": "En que circulo vas a participar",
         "section_necesidades": "Necesidades logísticas",
         "section_compromiso": "Compromiso de Convivencia",
         "nombre": "Nombre *",
@@ -56,7 +57,7 @@
         "aporte_minga_placeholder": "Mi interés es...",
         "notas": "Comentarios adicionales",
         "notas_placeholder": "¿Algo más que quieras contarnos?",
-        "compromiso_body": "¿Te comprometes a mantener un espíritu de diálogo, respeto y cuidado mutuo durante toda la jornada del Congreso bajo el lema \"Todas las Voces\"?",
+        "compromiso_body": "¿Te comprometes a mantener un espíritu de diálogo, respeto y cuidado mutuo durante toda la jornada del Congreso bajo el lema \"Todas las Voces\", asumiendo la no participación proselitista durante el mismo?",
         "compromiso_si": "Sí, me comprometo. *",
         "upload_select": "Seleccionar archivo / Subir imagen o PDF",
         "upload_loading": "Subiendo...",
@@ -81,8 +82,8 @@
         "submit_loading": "Enviando...",
         "submit_success": "✓ Inscripción Enviada",
         "submit_disclaimer": "Al inscribirte confirmas tu interés. El equipo organizador se pondrá en contacto pronto. Los campos con * son obligatorios.",
-        "success_title": "¡Bienvenido/a al movimiento! 🌿",
-        "success_body": "Tu inscripción fue registrada. El equipo del VII Congreso se pondrá en contacto pronto. Por favor, esté pendiente del correo que registró, ya que en caso de ser seleccionado se le enviará un mail por ese medio.",
+        "success_title": "¡Pre-Inscripción recibida con éxito!",
+        "success_body": "Hemos recibido tus datos correctamente. Pronto recibirás un correo electrónico de confirmación en la siguiente dirección:",
         "success_footer": "¡Hasta Pasto, Cali y Medellín!",
         "submit_label": "Inscribirme al Congreso →",
         "warning_cupo_no_hay": "⚠️ No hay cupo para {pais} en: {bloq}. Elige otra sede.",
@@ -99,6 +100,7 @@
         "error_phone_gen": "Por favor, ingresa un número de teléfono válido.",
         "error_intereses": "Por favor, selecciona al menos un interés (Círculos de la Palabra).",
         "error_necesidades": "Por favor, selecciona al menos una necesidad logística. Si no tienes o ya está cubierta, especifícalo en los comentarios.",
+        "error_dieta": "Por favor, especifica tu tipo de dieta (Vegetariana, Vegana, etc.)",
         "error_cupo": "No hay cupos disponibles para tu país en la sede seleccionada.",
         "opciones_sede": [
             "Pasto",
@@ -108,8 +110,8 @@
         ],
         "sede_descripcion": [
             "17–19 Abril · Nariño",
-            "20–22 Abril · Valle del Cauca",
-            "23–26 Abril · Antioquia",
+            "20–21 Abril · Valle del Cauca",
+            "22–26 Abril · Antioquia",
             "Pasto → Cali → Medellín"
         ],
         "select_placeholder": "Selecciona",
@@ -154,11 +156,14 @@
             "Formador/a / Educador/a popular",
             "Investigador/a",
             "Delegado/a de gobierno",
+            "Emprendimiento feria",
+            "Lanzamiento de libro",
             "Participante general"
         ],
         "opciones_aporte": [
-            "135 dólares",
-            "Puedo hacer un aporte superior"
+            "Sí, podré dar el aporte ($135 USD / $500.000 COP)",
+            "Puedo dar un aporte superior",
+            "No me es posible dar el aporte"
         ],
         "opciones_intereses": [
             "Arte para la transformación social",
@@ -181,10 +186,15 @@
             "Alojamiento",
             "Alimentación especial",
             "Accesibilidad / movilidad reducida",
-            "Cuidado de niñes",
             "Apoyo para ponencia (aplica solo para participantes en esta categoría en el Seminario)",
-            "¿Tiene alguna alergia alimentaria o dieta especial (Vegetariana, vegana, etc.)?",
+            "¿Tiene alguna alergia alimentaria o dieta especial?",
             "¿Tienes alguna condición médica o discapacidad que debamos tener en cuenta para la logística de movilidad y alojamiento?"
+        ],
+        "tipo_dieta_label": "Por favor especifica tu alimentación especial:",
+        "opciones_dieta": [
+            "Vegetariana",
+            "Vegana",
+            "Come de todo"
         ]
     },
     "nav": {

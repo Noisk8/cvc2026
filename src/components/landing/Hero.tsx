@@ -9,31 +9,6 @@ const CAP_SEDE = { Pasto: 150, Cali: 250, Medellin: 450 };
 
 export default function Hero() {
     const t = useTranslations('hero');
-    const [cupos, setCupos] = useState({ pasto: "...", cali: "...", medellin: "..." });
-    const supabase = createClient();
-
-    useEffect(() => {
-        async function fetchCupos() {
-            const { data } = await supabase.from("registros").select("sede, estado").eq("estado", "confirmed");
-            if (!data) return;
-
-            const cPasto = data.filter((r) => r.sede === "Pasto" || r.sede === "Todo el recorrido").length;
-            const cCali = data.filter((r) => r.sede === "Cali" || r.sede === "Todo el recorrido").length;
-            const cMed = data.filter((r) => r.sede === "Medellín" || r.sede === "Todo el recorrido").length;
-
-            const lPasto = Math.max(0, CAP_SEDE.Pasto - cPasto);
-            const lCali = Math.max(0, CAP_SEDE.Cali - cCali);
-            const lMed = Math.max(0, CAP_SEDE.Medellin - cMed);
-
-            setCupos({
-                pasto: lPasto > 0 ? t('cupos', { count: lPasto }) : t('agotado'),
-                cali: lCali > 0 ? t('disponibles', { count: lCali }) : t('agotado'),
-                medellin: lMed > 0 ? t('disponibles', { count: lMed }) : t('agotado'),
-            });
-        }
-
-        fetchCupos();
-    }, [supabase, t]);
 
     const scrollToInscripcion = () => {
         document.getElementById("inscripcion")?.scrollIntoView({ behavior: "smooth" });
@@ -89,21 +64,21 @@ export default function Hero() {
                             Pasto
                         </div>
                         <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">17–19 Abril</div>
-                        <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#D42B2B]/20 py-1 rounded">{cupos.pasto}</div>
+                        <div className="font-barlow-condensed text-[16px] font-[800] mt-2 text-oscuro bg-[#D42B2B]/20 py-1 rounded">{t('preinscribete_ya')}</div>
                     </div>
                     <div className="bg-[#f4efe8] border-2 border-[#1A7A3C] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#1A7A3C] rounded-lg">
                         <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#1A7A3C]">
                             Cali
                         </div>
-                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">20–22 Abril</div>
-                        <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#1A7A3C]/20 py-1 rounded">{cupos.cali}</div>
+                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">20–21 Abril</div>
+                        <div className="font-barlow-condensed text-[16px] font-[800] mt-2 text-oscuro bg-[#1A7A3C]/20 py-1 rounded">{t('preinscribete_ya')}</div>
                     </div>
                     <div className="bg-[#f4efe8] border-2 border-[#E8711A] px-[22px] py-[16px] text-center min-w-[180px] transition-all duration-300 hover:-translate-y-2 shadow-[8px_8px_0px_#E8711A] rounded-lg">
                         <div className="font-barlow-condensed font-[900] text-[20px] uppercase tracking-[2px] text-[#E8711A]">
                             Medellín
                         </div>
-                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">23–26 Abril</div>
-                        <div className="font-barlow-condensed text-[18px] font-[800] mt-2 text-oscuro bg-[#E8711A]/20 py-1 rounded">{cupos.medellin}</div>
+                        <div className="text-[14px] text-oscuro/70 mt-1 font-[600]">22–26 Abril</div>
+                        <div className="font-barlow-condensed text-[16px] font-[800] mt-2 text-oscuro bg-[#E8711A]/20 py-1 rounded">{t('preinscribete_ya')}</div>
                     </div>
                 </div>
 

@@ -1,10 +1,11 @@
 {
     "hero": {
-        "badge": "Colômbia · Abril 2026 · 23+ Países",
-        "cta": "Inscreva-se na assembleia!",
-        "cupos": "{count} vagas",
-        "disponibles": "+{count} disponíveis",
-        "agotado": "Esgotado"
+        "badge": "Água, Terra e Cuidadores de Vida",
+        "cta": "Pré-inscrição para a assembleia!",
+        "cupos": "Em breve",
+        "disponibles": "Em breve",
+        "agotado": "Em breve",
+        "preinscribete_ya": "Pré-inscreva-se já!"
     },
     "about": {
         "eyebrow": "Sobre o Congresso",
@@ -56,7 +57,7 @@
         "aporte_minga_placeholder": "Meu interesse é...",
         "notas": "Comentários adicionais",
         "notas_placeholder": "Tem mais alguma coisa que queira nos contar?",
-        "compromiso_body": "Você se compromete a manter um espírito de diálogo, respeito e cuidado mútuo durante toda a jornada do Congresso sob o lema \"Todas as Vozes\"?",
+        "compromiso_body": "Você se compromete a manter um espírito de diálogo, respeito e cuidado mútuo durante toda a jornada do Congresso sob o lema \"Todas as Vozes\", assumindo a não participação proselitista durante o mesmo?",
         "compromiso_si": "Sim, me comprometo. *",
         "upload_select": "Selecionar arquivo / Enviar imagem ou PDF",
         "upload_loading": "Enviando...",
@@ -75,14 +76,16 @@
         "cupo_agotado": "✕ Esgotado",
         "instrucciones_aporte_titulo": "INSTRUÇÕES PARA A CONTRIBUIÇÃO:",
         "instrucciones_aporte_texto": "O valor único da cota solidária é de quinhentos mil pesos colombianos ($500.000 COP) / 135 dólares.",
-        "instrucciones_aporte_dolar": "O valor do dólar na Colômbia é de $3.766,30 pesos colombianos por dólar (referência aproximada).",
-        "instrucciones_aporte_nota": "Sugerimos que a cotação seja consultada, pois pode variar ligeiramente a cada dia.",
+        "instrucoes_aporte_titulo": "INSTRUÇÕES PARA A CONTRIBUIÇÃO:",
+        "instrucoes_aporte_texto": "O valor único da cota solidária é de quinhentos mil pesos colombianos ($500.000 COP) / 135 dólares.",
+        "instrucoes_aporte_dolar": "O valor do dólar na Colômbia é de $3.766,30 pesos colombianos por dólar (referência aproximada).",
+        "instrucoes_aporte_nota": "Sugerimos que a cotação seja consultada, pois pode variar ligeiramente a cada dia.",
         "submit": "Inscrever-me no Congresso →",
         "submit_loading": "Enviando...",
         "submit_success": "✓ Inscrição Enviada",
         "submit_disclaimer": "Ao se inscrever, você confirma seu interesse. A equipe organizadora entrará em contato em breve. Os campos com * são obrigatórios.",
-        "success_title": "Bem-vindo/a ao movimento! 🌿",
-        "success_body": "Sua inscrição foi registrada. A equipe do VII Congresso entrará em contato em breve. Por favor, fique atento ao e-mail cadastrado, pois caso seja selecionado, enviaremos um e-mail por esse meio.",
+        "success_title": "Pré-inscrição recebida com sucesso!",
+        "success_body": "Recebemos seus dados corretamente. Em breve você receberá um e-mail de confirmação no seguinte endereço:",
         "success_footer": "Até Pasto, Cali e Medellín!",
         "submit_label": "Inscrever-me no Congresso →",
         "warning_cupo_no_hay": "⚠️ Não há vagas para {pais} em: {bloq}. Escolha outra sede.",
@@ -99,6 +102,7 @@
         "error_phone_gen": "Por favor, insira um número de telefone válido.",
         "error_intereses": "Por favor, selecione pelo menos um interesse (Círculos da Palavra).",
         "error_necesidades": "Por favor, selecione pelo menos uma necessidade logística. Se não tiver ou se já estiver coberta, mencione nos comentários.",
+        "error_dieta": "Por favor, especifique o seu tipo de dieta (Vegetariana, Vegana, etc.)",
         "error_cupo": "Não há vagas disponíveis para o seu país na sede selecionada.",
         "opciones_sede": [
             "Pasto",
@@ -108,8 +112,8 @@
         ],
         "sede_descripcion": [
             "17–19 Abr · Nariño",
-            "20–22 Abr · Valle del Cauca",
-            "23–26 Abr · Antioquia",
+            "20–21 Abr · Valle del Cauca",
+            "22–26 Abr · Antioquia",
             "Pasto → Cali → Medellín"
         ],
         "select_placeholder": "Selecione",
@@ -154,11 +158,14 @@
             "Formador/a / Educador/a popular",
             "Pesquisador/a",
             "Delegado/a de governo",
+            "Empreendedorismo feira",
+            "Lançamento de livro",
             "Participante geral"
         ],
         "opciones_aporte": [
-            "135 dólares",
-            "Posso fazer uma contribuição superior"
+            "Sim, poderei dar a contribuição ($135 USD / $500.000 COP)",
+            "Posso dar uma contribuição superior",
+            "Não me é possível dar a contribuição"
         ],
         "opciones_intereses": [
             "Arte para a transformação social",
@@ -181,10 +188,15 @@
             "Hospedagem",
             "Alimentação especial",
             "Acessibilidade / mobilidade reduzida",
-            "Cuidado de crianças",
             "Apoio para palestra (aplica-se apenas a participantes nesta categoria no Seminário)",
-            "Você tem alguma alergia alimentar ou dieta especial (Vegetariana, vegana, etc.)?",
+            "Você tem alguma alergia alimentar ou dieta especial?",
             "Você tem alguma condição médica ou deficiência que devemos considerar para a logística de mobilidade e hospedagem?"
+        ],
+        "tipo_dieta_label": "Por favor, especifique sua alimentação especial:",
+        "opciones_dieta": [
+            "Vegetariana",
+            "Vegana",
+            "Come de tudo"
         ]
     },
     "nav": {

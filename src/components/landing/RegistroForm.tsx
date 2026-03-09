@@ -23,19 +23,19 @@ export default function RegistroForm() {
         email: "", telefono: "", pais: "", ciudad: "",
         genero: "", organizacion: "", actividad_principal: "", participacion_previa: "", anos_cvc: "", etnia: "",
         rol: "", descripcion: "", aporte: "",
-        carta_aval: "", sede: "", intereses: [], necesidades: [], notas: "",
+        carta_aval: "", sede: "", intereses: [], necesidades: [], notas: "", tipo_dieta: "",
         comprobante_pago: "", fecha_transferencia: "", nombre_pagador: "", monto_superior: "", aporte_minga: "",
         compromiso_convivencia: false
     });
 
     const [uploadingCarta, setUploadingCarta] = useState(false);
-    const [uploadingComprobante, setUploadingComprobante] = useState(false);
 
     const [cuposConfig, setCuposConfig] = useState<CupoPais[]>([]);
     const [registrosConfirmados, setRegistrosConfirmados] = useState<any[]>([]);
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [submittedEmail, setSubmittedEmail] = useState("");
     const [formError, setFormError] = useState<string | null>(null);
     const supabase = createClient();
 
@@ -100,44 +100,6 @@ export default function RegistroForm() {
         }
     };
 
-    const handleComprobanteUpload = async (e: any) => {
-        try {
-            setUploadingComprobante(true);
-            setFormError(null);
-            const file = e.target.files[0];
-            if (!file) return;
-
-            if (file.size > 15 * 1024 * 1024) {
-                setFormError(t('error_size') || "El archivo excede el tamaño máximo permitido de 15MB.");
-                return;
-            }
-
-            const fileExt = file.name.split('.').pop();
-            const fileName = `pago_${registro.identificacion || 'rut'}_${Math.random()}.${fileExt}`;
-            const filePath = `${fileName}`;
-
-            const { error: uploadError } = await supabase.storage
-                .from('comprobantes_pago')
-                .upload(filePath, file);
-
-            if (uploadError) {
-                console.error("Upload error:", uploadError);
-                throw new Error(t('error_pago_bucket'));
-            }
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('comprobantes_pago')
-                .getPublicUrl(filePath);
-
-            setRegistro((prev: any) => ({ ...prev, comprobante_pago: publicUrl }));
-
-        } catch (error: any) {
-            setFormError(error.message || t('error_general'));
-        } finally {
-            setUploadingComprobante(false);
-        }
-    };
-
     const selectSede = (sede: string) => {
         setFormError(null);
         setRegistro((prev: any) => ({ ...prev, sede }));
@@ -147,6 +109,13 @@ export default function RegistroForm() {
         setFormError(null);
         setRegistro((prev: any) => {
             const list = prev[field] || [];
+            
+            // If field is intereses, replace the list with just this item (or empty if deselecting)
+            if (field === "intereses") {
+                return { ...prev, [field]: list.includes(item) ? [] : [item] };
+            }
+
+            // Otherwise (necesidades) keep multiple selection behavior
             const newList = list.includes(item)
                 ? list.filter((i: string) => i !== item)
                 : [...list, item];
@@ -191,7 +160,8 @@ export default function RegistroForm() {
     const warning = getCupoWarning();
 
     const validateForm = () => {
-        if (!registro.nombre || !registro.apellido || !registro.identificacion || !registro.edad || !registro.email || !registro.telefono || !registro.pais || !registro.ciudad || !registro.genero || !registro.organizacion || !registro.actividad_principal || !registro.participacion_previa || !registro.anos_cvc || !registro.etnia || !registro.rol || !registro.descripcion || !registro.aporte || !registro.sede || !registro.carta_aval || !registro.aporte_minga) {
+        const requireCarta = registro.pais !== "Colombia";
+        if (!registro.nombre || !registro.apellido || !registro.identificacion || !registro.edad || !registro.email || !registro.telefono || !registro.pais || !registro.ciudad || !registro.genero || !registro.organizacion || !registro.actividad_principal || !registro.participacion_previa || !registro.anos_cvc || !registro.etnia || !registro.rol || !registro.descripcion || !registro.aporte || !registro.sede || (requireCarta && !registro.carta_aval) || !registro.aporte_minga) {
             return t('error_campos');
         }
 
@@ -199,10 +169,6 @@ export default function RegistroForm() {
             return t('error_compromiso');
         }
 
-        const isPayingAporte = registro.aporte === t('opciones_aporte.0') || registro.aporte === t('opciones_aporte.1');
-        if (isPayingAporte && (!registro.comprobante_pago || !registro.fecha_transferencia)) {
-            return t('error_pago');
-        }
         if (registro.aporte === t('opciones_aporte.1') && !registro.monto_superior) {
             return t('error_monto');
         }
@@ -229,6 +195,11 @@ export default function RegistroForm() {
             return t('error_necesidades');
         }
 
+        // Validación de tipo de dieta si seleccionó alimentación especial
+        if (registro.necesidades.includes("Alimentación especial") && !registro.tipo_dieta) {
+            return t('error_dieta');
+        }
+
         return null;
     };
 
@@ -251,12 +222,25 @@ export default function RegistroForm() {
         setLoading(true);
         setFormError(null);
         try {
-            const { error } = await supabase.from("registros").insert([registro]);
+            const payload = { ...registro };
+            
+            // Format dieta into necesidades if selected, and remove non-existent DB column
+            if (payload.tipo_dieta) {
+                payload.necesidades = payload.necesidades.map((n: string) => 
+                    n === "Alimentación especial" || n === "Alimentação especial" || n.includes("alergia alimentaria") || n.includes("alergia alimentar")
+                        ? `${n} (${payload.tipo_dieta})` 
+                        : n
+                );
+            }
+            delete payload.tipo_dieta;
+
+            const { error } = await supabase.from("registros").insert([payload]);
             if (error) throw error;
+            setSubmittedEmail(registro.email);
             setSuccess(true);
             setRegistro({
                 ...registro,
-                intereses: [], necesidades: [], notas: "", sede: "", nombre: "", apellido: "", identificacion: "", edad: "", email: "", telefono: "", pais: "", ciudad: "", genero: "", organizacion: "", actividad_principal: "", participacion_previa: "", anos_cvc: "", etnia: "", rol: "", descripcion: "", aporte: "", carta_aval: "", comprobante_pago: "", fecha_transferencia: "", nombre_pagador: "", monto_superior: "", aporte_minga: "", compromiso_convivencia: false
+                intereses: [], necesidades: [], notas: "", tipo_dieta: "", sede: "", nombre: "", apellido: "", identificacion: "", edad: "", email: "", telefono: "", pais: "", ciudad: "", genero: "", organizacion: "", actividad_principal: "", participacion_previa: "", anos_cvc: "", etnia: "", rol: "", descripcion: "", aporte: "", carta_aval: "", comprobante_pago: "", fecha_transferencia: "", nombre_pagador: "", monto_superior: "", aporte_minga: "", compromiso_convivencia: false
             });
             setTimeout(() => setSuccess(false), 5000);
         } catch (err) {
@@ -413,12 +397,19 @@ export default function RegistroForm() {
                             <textarea id="descripcion" name="descripcion" value={registro.descripcion} onChange={handleChange} required placeholder={t('descripcion_placeholder')} className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[140px] resize-y"></textarea>
                         </div>
 
-                        <div className="flex flex-col gap-[7px] md:col-span-2 mt-2 p-4 md:p-6 bg-white/5 border border-white/10 rounded-[4px]">
-                            <label htmlFor="carta_aval" className="font-barlow-condensed text-[16px] tracking-[2px] uppercase text-crema/80">{t('carta_aval')}</label>
-                            <p className="text-[16px] text-crema/40 leading-[1.5] mb-3">{t('carta_aval_hint')}</p>
+                        <div className={`flex flex-col gap-[7px] md:col-span-2 mt-2 p-4 md:p-6 border rounded-[4px] transition-all ${registro.pais === 'Colombia' ? 'bg-white/0 border-white/5 opacity-60' : 'bg-white/5 border-white/10'}`}>
+                            <div className="flex justify-between items-start gap-4 flex-wrap">
+                                <div>
+                                    <label htmlFor="carta_aval" className="font-barlow-condensed text-[16px] tracking-[2px] uppercase text-crema/80">{t('carta_aval')}</label>
+                                    <p className="text-[16px] text-crema/40 leading-[1.5] mb-3">{t('carta_aval_hint')}</p>
+                                </div>
+                                {registro.pais === 'Colombia' && (
+                                    <span className="text-amarillo/70 text-[13px] font-barlow-condensed uppercase tracking-[1px] px-2 py-1 bg-amarillo/5 border border-amarillo/10 rounded">No requerido p/ Colombia</span>
+                                )}
+                            </div>
 
                             <div className="flex items-center gap-4 flex-wrap">
-                                <label className={`cursor-pointer bg-amarillo/10 border border-amarillo/30 text-amarillo px-4 py-3 font-barlow text-[16px] transition-all hover:bg-amarillo/20 flex items-center gap-2 ${uploadingCarta ? 'opacity-50 pointer-events-none' : ''}`}>
+                                <label className={`cursor-pointer border text-amarillo px-4 py-3 font-barlow text-[16px] transition-all flex items-center gap-2 ${uploadingCarta || registro.pais === 'Colombia' ? 'opacity-50 pointer-events-none bg-amarillo/5 border-amarillo/10' : 'bg-amarillo/10 border-amarillo/30 hover:bg-amarillo/20'}`}>
                                     <span className="font-[600]">{uploadingCarta ? t('upload_loading') : t('upload_select')}</span>
                                     <input
                                         type="file"
@@ -426,6 +417,7 @@ export default function RegistroForm() {
                                         accept="image/*,.pdf"
                                         onChange={handleFileUpload}
                                         className="hidden"
+                                        disabled={registro.pais === 'Colombia'}
                                     />
                                 </label>
                                 {registro.carta_aval && (
@@ -436,7 +428,7 @@ export default function RegistroForm() {
                             </div>
 
                             {/* Input oculto para validación nativa del form si se requiere */}
-                            <input type="text" className="h-0 w-0 opacity-0 absolute" value={registro.carta_aval} onChange={() => { }} required tabIndex={-1} />
+                            <input type="text" className="h-0 w-0 opacity-0 absolute" value={registro.carta_aval} onChange={() => { }} required={registro.pais !== 'Colombia'} tabIndex={-1} />
                         </div>
                     </div>
 
@@ -466,49 +458,11 @@ export default function RegistroForm() {
                             </div>
                         </div>
 
-                        {(registro.aporte === t('opciones_aporte.0') || registro.aporte === t('opciones_aporte.1')) && (
+                        {registro.aporte === t('opciones_aporte.1') && (
                             <div className="flex flex-col gap-[15px] md:col-span-2 mt-2 p-5 bg-white/5 border border-white/10 rounded-[4px]">
-                                <div className="flex justify-between items-start flex-wrap gap-4">
-                                    <div>
-                                        <h4 className="font-barlow-condensed font-[700] text-[18px] tracking-[1px] text-crema">{t('pago_titulo')}</h4>
-                                        <p className="text-[15px] text-crema/60 leading-[1.5]">{t('pago_desc')}</p>
-                                    </div>
-
-                                    {registro.aporte === t('opciones_aporte.1') && (
-                                        <div className="flex flex-col gap-[7px] w-full sm:w-auto">
-                                            <label htmlFor="monto_superior" className="font-barlow-condensed text-[14px] tracking-[2px] uppercase text-amarillo">{t('monto_superior_label')}</label>
-                                            <input id="monto_superior" type="text" name="monto_superior" value={registro.monto_superior} onChange={handleChange} placeholder={t('monto_superior_placeholder')} required className="bg-amarillo/10 border border-amarillo/30 text-crema px-4 py-2 font-barlow text-[16px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/20" />
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="flex flex-col gap-[7px] mt-2 border-t border-white/5 pt-4">
-                                    <label className="font-barlow-condensed text-[14px] tracking-[2px] uppercase text-crema/80">{t('comprobante_label')}</label>
-                                    <div className="flex items-center gap-4 flex-wrap">
-                                        <label className={`cursor-pointer bg-amarillo/10 border border-amarillo/30 text-amarillo px-4 py-3 font-barlow text-[16px] transition-all hover:bg-amarillo/20 flex items-center gap-2 ${uploadingComprobante ? 'opacity-50 pointer-events-none' : ''}`}>
-                                            <span className="font-[600]">{uploadingComprobante ? t('upload_loading') : t('upload_select')}</span>
-                                            <input type="file" accept="image/*,.pdf" onChange={handleComprobanteUpload} className="hidden" />
-                                        </label>
-                                        {registro.comprobante_pago && (
-                                            <span className="text-[#5dd68c] bg-verde/10 px-3 py-1.5 border border-verde/20 text-[15px] flex items-center gap-2">
-                                                ✓ {t('upload_comprobante_success')}
-                                            </span>
-                                        )}
-                                    </div>
-                                    <input type="text" className="h-0 w-0 opacity-0 absolute" value={registro.comprobante_pago} onChange={() => { }} required={registro.aporte === t('opciones_aporte.0') || registro.aporte === t('opciones_aporte.1')} tabIndex={-1} />
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-2">
-                                    <div className="flex flex-col gap-[7px]">
-                                        <label htmlFor="fecha_transferencia" className="font-barlow-condensed text-[14px] tracking-[2px] uppercase text-crema/80">{t('fecha_label')}</label>
-                                        <input id="fecha_transferencia" type="date" name="fecha_transferencia" value={registro.fecha_transferencia} onChange={handleChange} required={registro.aporte === t('opciones_aporte.0') || registro.aporte === t('opciones_aporte.1')} className="bg-white/5 border border-white/10 text-crema px-4 py-[11px] font-barlow text-[16px] outline-none transition-all focus:border-amarillo focus:bg-amarillo/5 [color-scheme:dark]" />
-                                    </div>
-
-                                    <div className="flex flex-col gap-[7px]">
-                                        <label htmlFor="nombre_pagador" className="font-barlow-condensed text-[14px] tracking-[2px] uppercase text-crema/80">{t('pagador_label')}</label>
-                                        <p className="text-[13px] text-crema/40 -mt-2 mb-1">{t('pagador_hint')}</p>
-                                        <input id="nombre_pagador" type="text" name="nombre_pagador" value={registro.nombre_pagador} onChange={handleChange} placeholder={t('pagador_placeholder')} className="bg-white/5 border border-white/10 text-crema px-4 py-[10px] font-barlow text-[16px] outline-none transition-all focus:border-amarillo focus:bg-amarillo/5" />
-                                    </div>
+                                <div className="flex flex-col gap-[7px] w-full">
+                                    <label htmlFor="monto_superior" className="font-barlow-condensed text-[14px] tracking-[2px] uppercase text-amarillo">{t('monto_superior_label')}</label>
+                                    <input id="monto_superior" type="text" name="monto_superior" value={registro.monto_superior} onChange={handleChange} placeholder={t('monto_superior_placeholder')} required className="bg-amarillo/10 border border-amarillo/30 text-crema px-4 py-2 font-barlow text-[16px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/20" />
                                 </div>
                             </div>
                         )}
@@ -602,6 +556,16 @@ export default function RegistroForm() {
                         })}
                     </div>
 
+                    {registro.necesidades.includes("Alimentación especial") && (
+                        <div className="flex flex-col gap-[7px] mt-4 p-4 bg-naranja/5 border border-naranja/20 rounded-[4px]">
+                            <label htmlFor="tipo_dieta" className="font-barlow-condensed text-[16px] tracking-[2px] uppercase text-naranja">{t('tipo_dieta_label')}</label>
+                            <select id="tipo_dieta" name="tipo_dieta" value={registro.tipo_dieta} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-naranja focus:bg-naranja/5 appearance-none [&>option]:bg-[#1a2512]">
+                                <option value="">{t('select_placeholder')}</option>
+                                {(t.raw('opciones_dieta') as string[]).map(o => <option key={o} value={o}>{o}</option>)}
+                            </select>
+                        </div>
+                    )}
+
                     <div className="flex flex-col gap-[7px]">
                         <label htmlFor="notas" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">{t('notas')}</label>
                         <textarea id="notas" name="notas" value={registro.notas} onChange={handleChange} placeholder={t('notas_placeholder')} className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] placeholder:text-crema/30 min-h-[88px]"></textarea>
@@ -656,7 +620,11 @@ export default function RegistroForm() {
                     {success && (
                         <div className="bg-verde/20 border border-verde text-crema p-7 text-center mt-5 animate-[fadeUp_.4s_ease]">
                             <h3 className="font-playfair text-[22px] text-amarillo mb-2">{t('success_title')}</h3>
-                            <p>{t('success_body')}<br /><strong>{t('success_footer')}</strong></p>
+                            <p className="mb-3">{t('success_body')}</p>
+                            <p className="text-[18px] text-white font-barlow-condensed tracking-[1px] mb-3 p-2 bg-black/20 rounded inline-block">
+                                ✉️ {submittedEmail}
+                            </p>
+                            <p><strong>{t('success_footer')}</strong></p>
                         </div>
                     )}
 

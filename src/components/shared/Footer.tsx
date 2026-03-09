@@ -18,10 +18,10 @@ export default function Footer() {
                         VII Congreso Latinoamericano y Caribeño de las Culturas Vivas
                         Comunitarias · Colombia 2026<br />
                         <a
-                            href="mailto:plataformapuente@gmail.com"
+                            href="mailto:grupoimpulsorcolombia@gmail.com"
                             className="text-amarillo no-underline"
                         >
-                            plataformapuente@gmail.com
+                            grupoimpulsorcolombia@gmail.com
                         </a>
                     </p>
                 </div>

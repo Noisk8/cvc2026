@@ -56,7 +56,7 @@ export default function InscritosTable({ registros, cuposConfig, refreshData }: 
                 <table className="w-full border-collapse min-w-[900px]">
                     <thead>
                         <tr>
-                            {['#', 'Nombre', 'País', 'Organización', 'Años CVC', 'Sede(s)', 'Rol', 'Aporte', 'Comité', 'Estado', 'Acciones'].map(h => (
+                            {['#', 'Nombre', 'País', 'Organización', 'Años CVC', 'Sede(s)', 'Rol', 'Aporte', 'Círculo de la Palabra', 'Estado', 'Acciones'].map(h => (
                                 <th key={h} className="font-barlow-condensed text-[11px] font-[700] tracking-[2px] uppercase text-crema/40 p-3 px-4 text-left border-b border-white/5 bg-white/5 whitespace-nowrap">{h}</th>
                             ))}
                         </tr>
@@ -74,7 +74,7 @@ export default function InscritosTable({ registros, cuposConfig, refreshData }: 
                                 <td className="p-3 px-4 text-[13px] text-crema/80"><span className={`font-barlow-condensed text-[11px] font-[700] tracking-[1px] uppercase px-2 py-0.5 border ${getSedeColor(r.sede)}`}>{r.sede === "Todo el recorrido" ? "Completo" : r.sede}</span></td>
                                 <td className="p-3 px-4 text-[12px] text-crema/80">{r.rol}</td>
                                 <td className="p-3 px-4 text-[11px] text-crema/80 max-w-[130px]">{r.aporte}</td>
-                                <td className="p-3 px-4 text-[11px] text-crema/80">{r.comite}</td>
+                                <td className="p-3 px-4 text-[11px] text-crema/80 max-w-[150px] truncate" title={r.intereses?.join(', ')}>{r.intereses?.join(', ') || '—'}</td>
                                 <td className="p-3 px-4 text-[13px] text-crema/80"><span className={`font-barlow-condensed text-[11px] font-[700] tracking-[1px] uppercase px-2.5 py-1 ${getStatusColor(r.estado)}`}>{r.estado === 'confirmed' ? '✓ Confirmado' : r.estado === 'rejected' ? '✕ Rechazado' : '∇ Pendiente'}</span></td>
                                 <td className="p-3 px-4 whitespace-nowrap">
                                     <button onClick={() => changeStatus(r.id, 'confirmed')} className="font-barlow-condensed text-[11px] font-[700] uppercase px-3 py-1 cursor-pointer border border-[#3dd68c]/40 text-[#3dd68c] bg-transparent mx-0.5 hover:bg-cali/20" title="Confirmar">✓</button>
@@ -107,7 +107,7 @@ export default function InscritosTable({ registros, cuposConfig, refreshData }: 
                             <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Género</label><p className="text-[13px]">{modalRegistro.genero || '—'}</p></div>
                             <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Etnia</label><p className="text-[13px]">{modalRegistro.etnia || '—'}</p></div>
                             <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Años CVC</label><p className="text-[13px]">{modalRegistro.anos_cvc || '—'}</p></div>
-                            <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Comité</label><p className="text-[13px]">{modalRegistro.comite || '—'}</p></div>
+                            <div><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Círculos de interés</label><p className="text-[13px]">{modalRegistro.intereses?.join(', ') || '—'}</p></div>
                             <div className="sm:col-span-2">
                                 <label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Aporte de la organización</label>
                                 <p className="text-[13px]">
@@ -120,16 +120,7 @@ export default function InscritosTable({ registros, cuposConfig, refreshData }: 
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                            {modalRegistro.intereses && modalRegistro.intereses.length > 0 && (
-                                <div>
-                                    <h4 className="font-barlow-condensed text-[11px] tracking-[3px] uppercase text-amarillo mb-2 border-b border-white/10 pb-1">Círculos de interés</h4>
-                                    <ul className="list-disc list-outside ml-4 text-[13px] leading-[1.6] text-crema/70 space-y-1">
-                                        {modalRegistro.intereses.map((interes: string, idx: number) => (
-                                            <li key={idx} className="break-words pl-1">{interes}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
+
 
                             {modalRegistro.necesidades && modalRegistro.necesidades.length > 0 && (
                                 <div>

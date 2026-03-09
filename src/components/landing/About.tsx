@@ -40,7 +40,7 @@ export default function About() {
                     {/* Stats */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-[18px]">
                         <div className="bg-oscuro text-crema p-6 relative overflow-hidden transition-transform duration-300 hover:-translate-y-1 group/s1">
-                            <div className="font-playfair text-[46px] font-[900] leading-none text-amarillo">+20</div>
+                            <div className="font-playfair text-[46px] font-[900] leading-none text-amarillo">+23</div>
                             <div className="font-barlow-condensed text-[13px] tracking-[2px] uppercase opacity-50 mt-[6px]">
                                 {t('stat_paises')}
                             </div>
