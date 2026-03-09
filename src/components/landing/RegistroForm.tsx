@@ -25,7 +25,7 @@ export default function RegistroForm() {
         rol: "", descripcion: "", aporte: "",
         carta_aval: "", sede: "", intereses: [], necesidades: [], notas: "", tipo_dieta: "",
         comprobante_pago: "", fecha_transferencia: "", nombre_pagador: "", monto_superior: "", aporte_minga: "",
-        compromiso_convivencia: false
+        compromiso_convivencia: false, compromiso_no_proselitismo: false
     });
 
     const [uploadingCarta, setUploadingCarta] = useState(false);
@@ -165,7 +165,7 @@ export default function RegistroForm() {
             return t('error_campos');
         }
 
-        if (!registro.compromiso_convivencia) {
+        if (!registro.compromiso_convivencia || !registro.compromiso_no_proselitismo) {
             return t('error_compromiso');
         }
 
@@ -233,6 +233,7 @@ export default function RegistroForm() {
                 );
             }
             delete payload.tipo_dieta;
+            delete payload.compromiso_no_proselitismo;
 
             const { error } = await supabase.from("registros").insert([payload]);
             if (error) throw error;
@@ -240,7 +241,7 @@ export default function RegistroForm() {
             setSuccess(true);
             setRegistro({
                 ...registro,
-                intereses: [], necesidades: [], notas: "", tipo_dieta: "", sede: "", nombre: "", apellido: "", identificacion: "", edad: "", email: "", telefono: "", pais: "", ciudad: "", genero: "", organizacion: "", actividad_principal: "", participacion_previa: "", anos_cvc: "", etnia: "", rol: "", descripcion: "", aporte: "", carta_aval: "", comprobante_pago: "", fecha_transferencia: "", nombre_pagador: "", monto_superior: "", aporte_minga: "", compromiso_convivencia: false
+                intereses: [], necesidades: [], notas: "", tipo_dieta: "", sede: "", nombre: "", apellido: "", identificacion: "", edad: "", email: "", telefono: "", pais: "", ciudad: "", genero: "", organizacion: "", actividad_principal: "", participacion_previa: "", anos_cvc: "", etnia: "", rol: "", descripcion: "", aporte: "", carta_aval: "", comprobante_pago: "", fecha_transferencia: "", nombre_pagador: "", monto_superior: "", aporte_minga: "", compromiso_convivencia: false, compromiso_no_proselitismo: false
             });
             setTimeout(() => setSuccess(false), 5000);
         } catch (err) {
@@ -578,7 +579,7 @@ export default function RegistroForm() {
                         {t('section_compromiso')}
                     </div>
 
-                    <div className="bg-white/5 border border-white/10 p-5 rounded-[4px] mb-2">
+                    <div className="bg-white/5 border border-white/10 p-5 rounded-[4px] mb-4">
                         <p className="text-[16px] text-crema/80 leading-[1.6] mb-4">
                             {t('compromiso_body')}
                         </p>
@@ -594,6 +595,29 @@ export default function RegistroForm() {
                                 type="checkbox"
                                 name="compromiso_convivencia"
                                 checked={registro.compromiso_convivencia}
+                                onChange={handleChange}
+                                className="hidden"
+                                required
+                            />
+                        </label>
+                    </div>
+
+                    <div className="bg-white/5 border border-white/10 p-5 rounded-[4px] mb-2">
+                        <p className="text-[16px] text-crema/80 leading-[1.6] mb-4">
+                            {t('compromiso_no_proselitismo_body')}
+                        </p>
+
+                        <label className="flex items-start gap-3 cursor-pointer group w-fit">
+                            <div className={`mt-0.5 w-[22px] h-[22px] border-2 rounded-[3px] flex items-center justify-center transition-all duration-200 shrink-0 ${registro.compromiso_no_proselitismo ? 'bg-amarillo border-amarillo text-oscuro' : 'border-white/30 group-hover:border-amarillo/50'}`}>
+                                {registro.compromiso_no_proselitismo && (
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                )}
+                            </div>
+                            <span className={`text-[17px] font-barlow transition-colors duration-200 ${registro.compromiso_no_proselitismo ? 'text-amarillo font-bold' : 'text-crema/70 group-hover:text-crema'}`}>{t('compromiso_si')}</span>
+                            <input
+                                type="checkbox"
+                                name="compromiso_no_proselitismo"
+                                checked={registro.compromiso_no_proselitismo}
                                 onChange={handleChange}
                                 className="hidden"
                                 required
