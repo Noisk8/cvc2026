@@ -24,6 +24,9 @@ export default function Footer() {
                             grupoimpulsorcolombia@gmail.com
                         </a>
                     </p>
+                    <p className="mt-4 text-[10px] text-crema/20 tracking-wider">
+                        Página hecha por <a href="https://platohedro.org" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500 transition-colors">Platohedro</a>
+                    </p>
                 </div>
             </footer>
             <div className="flex h-[5px] relative top-auto">
