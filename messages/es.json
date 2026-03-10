@@ -51,7 +51,7 @@
         "descripcion_placeholder": "Escribe aquí el resumen de tu proceso y/o propuesta...",
         "carta_aval": "Carga aquí la carta aval *",
         "carta_aval_hint": "Carta aval que tu país envió a Colombia donde está referido tu nombre como delegado. (Máx 3MB. Formatos: PDF, JPG, PNG)",
-        "aporte": "Aporte Solidario",
+        "aporte": "Aporte Solidario *",
         "aporte_minga": "Aporte a la Minga: Describe brevemente *",
         "aporte_minga_help": "¿Cuál es tu interés principal al participar en este 7° Congreso y qué experiencia de tu territorio te gustaría compartir con el continente?",
         "aporte_minga_placeholder": "Mi interés es...",
