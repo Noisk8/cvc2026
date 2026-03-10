@@ -50,7 +50,7 @@
         "descripcion_hint": "Para que tu participación sea más significativa, cuéntanos en 100-300 palabras: ¿De qué trata tu proceso u organización? ¿En qué contexto o territorio trabajan? ¿Cuáles son sus principales metodologías o impactos? Si eres ponente o artista, describe brevemente la experiencia o acto que te gustaría compartir en el Congreso.",
         "descripcion_placeholder": "Escribe aquí el resumen de tu proceso y/o propuesta...",
         "carta_aval": "Carga aquí la carta aval *",
-        "carta_aval_hint": "Carta aval que tu país envió a Colombia donde está referido tu nombre como delegado.",
+        "carta_aval_hint": "Carta aval que tu país envió a Colombia donde está referido tu nombre como delegado. (Máx 3MB. Formatos: PDF, JPG, PNG)",
         "aporte": "Aporte Solidario *",
         "aporte_minga": "Aporte a la Minga: Describe brevemente *",
         "aporte_minga_help": "¿Cuál es tu interés principal al participar en este 7° Congreso y qué experiencia de tu territorio te gustaría compartir con el continente?",
@@ -122,6 +122,8 @@
         "region_centro": "Centroamérica y Caribe",
         "region_otros": "Otros",
         "error_upload_bucket": "Error al subir el archivo. Verifica tu conexión o contacta al administrador.",
+        "error_size_3mb": "El archivo excede el tamaño máximo permitido de 3MB.",
+        "error_format_invalid": "Formato inválido. Solo se admiten archivos PDF, JPG y PNG.",
         "error_pago_bucket": "Error al subir el comprobante de pago. Verifica tu conexión o contacta al administrador.",
         "comite_no": "No",
         "opciones_etnia": [

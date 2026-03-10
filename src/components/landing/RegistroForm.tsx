@@ -69,12 +69,24 @@ export default function RegistroForm() {
             const file = e.target.files[0];
             if (!file) return;
 
-            if (file.size > 15 * 1024 * 1024) {
-                setFormError(t('error_size') || "El archivo excede el tamaño máximo permitido de 15MB.");
+            if (file.size > 3 * 1024 * 1024) {
+                const msg = t('error_size_3mb') || "El archivo excede el tamaño máximo permitido de 3MB.";
+                alert(msg);
+                setFormError(msg);
+                setUploadingCarta(false);
                 return;
             }
 
-            const fileExt = file.name.split('.').pop();
+            const validExtensions = ['pdf', 'png', 'jpg', 'jpeg'];
+            const fileExt = file.name.split('.').pop()?.toLowerCase() || '';
+            if (!validExtensions.includes(fileExt)) {
+                 const msg = t('error_format_invalid') || "Formato inválido. Solo se admiten archivos PDF, JPG y PNG.";
+                 alert(msg);
+                 setFormError(msg);
+                 setUploadingCarta(false);
+                 return;
+            }
+
             const fileName = `${registro.identificacion || 'doc'}_${Math.random()}.${fileExt}`;
             const filePath = `${fileName}`;
 
