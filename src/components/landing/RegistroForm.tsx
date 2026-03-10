@@ -173,7 +173,7 @@ export default function RegistroForm() {
 
     const validateForm = () => {
         const requireCarta = registro.pais !== "Colombia";
-        if (!registro.nombre || !registro.apellido || !registro.identificacion || !registro.edad || !registro.email || !registro.telefono || !registro.pais || !registro.ciudad || !registro.genero || !registro.organizacion || !registro.actividad_principal || !registro.participacion_previa || !registro.anos_cvc || !registro.etnia || !registro.rol || !registro.descripcion || !registro.aporte || !registro.sede || (requireCarta && !registro.carta_aval) || !registro.aporte_minga) {
+        if (!registro.nombre || !registro.apellido || !registro.identificacion || !registro.edad || !registro.email || !registro.telefono || !registro.pais || !registro.ciudad || !registro.genero || !registro.organizacion || !registro.actividad_principal || !registro.participacion_previa || !registro.anos_cvc || !registro.etnia || !registro.rol || !registro.descripcion || !registro.sede || (requireCarta && !registro.carta_aval) || !registro.aporte_minga) {
             return t('error_campos');
         }
 
@@ -455,7 +455,7 @@ export default function RegistroForm() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[18px]">
                         <div className="flex flex-col gap-[7px]">
                             <label htmlFor="aporte" className="font-barlow-condensed text-[15px] tracking-[2px] uppercase text-crema/55">{t('aporte')}</label>
-                            <select id="aporte" name="aporte" value={registro.aporte} onChange={handleChange} required className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
+                            <select id="aporte" name="aporte" value={registro.aporte} onChange={handleChange} className="bg-white/5 border border-white/10 text-crema px-4 py-3 font-barlow text-[17px] outline-none transition-all duration-250 focus:border-amarillo focus:bg-amarillo/5 focus:shadow-[0_0_0_3px_rgba(245,197,24,0.09)] appearance-none [&>option]:bg-[#1a2512]">
                                 <option value="">{t('select_placeholder')}</option>
                                 {(t.raw('opciones_aporte') as string[]).map(o => <option key={o} value={o}>{o}</option>)}
                             </select>
