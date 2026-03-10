@@ -15,13 +15,14 @@ export default function Logos() {
                     </div>
                 </div>
 
-                <div className="flex flex-wrap justify-center items-center gap-x-14 md:gap-x-24 gap-y-6 md:gap-y-8 opacity-80 mix-blend-multiply w-[90%] mx-auto">
-                    <Image src="/assets/logos/1_Logo_latam_y_el_caribe_letras_color_fondo_transparente.png" alt="Logo CVC LATAM" width={180} height={180} className="w-[130px] h-[130px] object-contain hover:scale-105 transition-transform duration-300" />
-                    {/* <Image src="/assets/logos/CULTURASCOLOR.png" alt="Culturas Vivas" width={180} height={180} className="w-[130px] h-[130px] object-contain hover:scale-105 transition-transform duration-300" /> */}
-                   <Image src="/assets/logos/Copia_de_logos_cvc_suroccidente_colMesa_de_trabajo_3.png" alt="CVC Suroccidente 3" width={180} height={180} className="w-[130px] h-[130px] object-contain hover:scale-105 transition-transform duration-300" />
-                    <Image src="/assets/logos/pp.png" alt="CVC Suroccidente 4" width={180} height={180} className="w-[130px] h-[130px] object-contain hover:scale-105 transition-transform duration-300" />
-                    <Image src="/assets/logos/logo3.png" alt="Logo Plat" width={200} height={200} className="w-[200px] h-[160px] object-contain hover:scale-105 transition-transform duration-300" />
-                    <Image src="/assets/logos/Logo_Plataforma_y_Mapa_Congreso2.png" alt="Plataforma CVC" width={200} height={200} className="w-[220px] h-[160px] object-contain hover:scale-105 transition-transform duration-300" />
+                <div className="flex flex-nowrap items-center gap-x-8 md:gap-x-12 opacity-80 mix-blend-multiply w-full overflow-x-auto pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    <Image src="/assets/logos/1_Logo_latam_y_el_caribe_letras_color_fondo_transparente.png" alt="Logo CVC LATAM" width={180} height={180} className="w-[100px] md:w-[130px] h-[100px] md:h-[130px] shrink-0 object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/Logo_Plataforma_y_Mapa_Congreso2.png" alt="Plataforma CVC" width={200} height={200} className="w-[140px] md:w-[180px] h-[100px] md:h-[130px] shrink-0 object-contain hover:scale-105 transition-transform duration-300" />
+                    {/* <Image src="/assets/logos/CULTURASCOLOR.png" alt="Culturas Vivas" width={180} height={180} className="w-[100px] md:w-[130px] h-[100px] md:h-[130px] shrink-0 object-contain hover:scale-105 transition-transform duration-300" /> */}
+                    <Image src="/assets/logos/Copia_de_logos_cvc_suroccidente_colMesa_de_trabajo_3.png" alt="CVC Suroccidente 3" width={180} height={180} className="w-[100px] md:w-[130px] h-[100px] md:h-[130px] shrink-0 object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/pp.png" alt="CVC Suroccidente 4" width={180} height={180} className="w-[100px] md:w-[130px] h-[100px] md:h-[130px] shrink-0 object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/logo3.png" alt="Logo Plat" width={200} height={200} className="w-[140px] md:w-[180px] h-[100px] md:h-[130px] shrink-0 object-contain hover:scale-105 transition-transform duration-300" />
+                    <Image src="/assets/logos/Logo.png" alt="Logo Plat" width={200} height={200} className="w-[140px] md:w-[180px] h-[100px] md:h-[130px] shrink-0 object-contain hover:scale-105 transition-transform duration-300" />
                 </div>
             </div>
         </section>
