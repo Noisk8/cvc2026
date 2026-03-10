@@ -112,7 +112,7 @@ export default function InscritosTable({ registros, cuposConfig, refreshData }: 
                                 <label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Aporte de la organización</label>
                                 <p className="text-[13px]">
                                     {modalRegistro.aporte || '—'}
-                                    {modalRegistro.aporte === "Puedo hacer un aporte superior" && modalRegistro.monto_superior && ` (Monto: ${modalRegistro.monto_superior})`}
+                                    {modalRegistro.monto_superior && ` (Monto: ${modalRegistro.monto_superior})`}
                                 </p>
                             </div>
                             <div className="sm:col-span-2"><label className="block font-barlow-condensed text-[10px] tracking-[3px] uppercase text-crema/40 mb-1">Actividad principal</label><p className="text-[13px]">{modalRegistro.actividad_principal || '—'}</p></div>
